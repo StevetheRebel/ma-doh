@@ -525,14 +525,15 @@ not a claim that prepared outputs are live model results.
 
 ## Team Roles
 
-Names will be added after the team confirms role ownership.
+Steve currently owns frontend engineering. The remaining names will be added
+after the team confirms role ownership.
 
-| Role | Location | Primary ownership | Build-day deliverables |
-| --- | --- | --- | --- |
-| **A. Technical and Integration Lead** | Physical | Repository, contracts, analytics, integration, deployment, and Brev | Stable `main`, shared API contract, calculations, deployed system, merges, technical Q&A |
-| **B. Frontend Engineer** | Virtual | React and TypeScript client | Mobile-first shell, capture hub, review form, history, dashboard, and Ask interface |
-| **C. AI and Backend Engineer** | Virtual | FastAPI and AI pipeline | Receipt inference, transcription, message parsing, schema-valid endpoints, tests, and latency evidence |
-| **D. Product, QA, and Submission Lead** | Physical | Product flow, safe data, testing, and submission | Test pack, acceptance checks, privacy copy, 90-second video, project card, and link verification |
+| Role | Current owner | Location | Primary ownership | Build-day deliverables |
+| --- | --- | --- | --- | --- |
+| **A. Technical and Integration Lead** | Unassigned | Physical | Repository, contracts, analytics, integration, deployment, and Brev | Stable `main`, shared API contract, calculations, deployed system, merges, technical Q&A |
+| **B. Frontend Engineer** | Steve | Virtual | Next.js and TypeScript client | Mobile-first shell, capture hub, review form, history, dashboard, and Ask interface |
+| **C. AI and Backend Engineer** | Unassigned | Virtual | FastAPI and AI pipeline | Receipt inference, transcription, message parsing, schema-valid endpoints, tests, and latency evidence |
+| **D. Product, QA, and Submission Lead** | Unassigned | Physical | Product flow, safe data, testing, and submission | Test pack, acceptance checks, privacy copy, 90-second video, project card, and link verification |
 
 ### Working agreement
 
