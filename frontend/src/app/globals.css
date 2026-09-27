@@ -1,28 +1,43 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f5f7f6;
-  --surface: #ffffff;
-  --surface-subtle: #eef3f0;
-  --foreground: #17211c;
-  --muted: #68736d;
-  --border: #dce4df;
-  --brand: #178454;
-  --brand-strong: #0c6840;
-  --brand-soft: #e3f4eb;
-  --blue-soft: #e7f0fb;
-  --blue: #2f6fae;
-  --amber-soft: #fff1d6;
-  --amber: #986516;
-  --danger: #b64949;
-  --shadow: 0 8px 30px rgba(23, 33, 28, 0.07);
+  --color-canvas: #f5f7f6;
+  --color-surface: #ffffff;
+  --color-surface-muted: #eef2ef;
+  --color-border: #d8e0db;
+
+  --color-text: #17211c;
+  --color-text-secondary: #68736d;
+  --color-text-strong-secondary: #344039;
+  --color-text-inverse: #ffffff;
+
+  --color-primary: #167818;
+  --color-primary-hover: #126514;
+  --color-primary-soft: #c0f181;
+  --color-primary-accent: #53af32;
+
+  --color-information: #404084;
+  --color-information-soft: #d0e2ed;
+  --color-information-muted: #a5bcd6;
+  --color-ai: #3f2354;
+
+  --color-success: #167818;
+  --color-success-soft: #5adf9f;
+  --color-warning: #eb5128;
+  --color-warning-soft: #ffce50;
+  --color-danger: #b52f2b;
+  --color-danger-soft: #ff5550;
+
+  --shadow-menu: 0 8px 24px rgba(23, 33, 28, 0.12);
+  --shadow-dialog: 0 16px 48px rgba(23, 33, 28, 0.18);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--color-canvas);
+  --color-foreground: var(--color-text);
+  --font-sans: var(--font-roboto);
+  --font-display: var(--font-space-grotesk);
+  --font-mono: var(--font-roboto-mono);
 }
 
 * {
@@ -30,14 +45,23 @@
 }
 
 html {
-  background: var(--background);
+  background: var(--color-canvas);
 }
 
 body {
   margin: 0;
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  background: var(--color-canvas);
+  color: var(--color-text);
+  font-family: var(--font-roboto), Arial, Helvetica, sans-serif;
+}
+
+h1,
+h2,
+h3,
+.brand-mark,
+.summary-card > strong,
+.insight-answer > strong {
+  font-family: var(--font-space-grotesk), Arial, Helvetica, sans-serif;
 }
 
 button {
@@ -46,7 +70,7 @@ button {
 }
 
 button:focus-visible {
-  outline: 3px solid rgba(23, 132, 84, 0.28);
+  outline: 3px solid rgba(22, 120, 24, 0.3);
   outline-offset: 2px;
 }
 
@@ -61,8 +85,8 @@ button:focus-visible {
   display: flex;
   width: 240px;
   flex-direction: column;
-  border-right: 1px solid var(--border);
-  background: var(--surface);
+  border-right: 1px solid var(--color-border);
+  background: var(--color-surface);
   padding: 28px 18px 20px;
 }
 
@@ -75,7 +99,7 @@ button:focus-visible {
 }
 
 .brand-mark strong {
-  color: var(--brand);
+  color: var(--color-primary);
 }
 
 .sidebar-nav {
@@ -93,19 +117,20 @@ button:focus-visible {
   border-radius: 6px;
   background: transparent;
   padding: 0 12px;
-  color: var(--muted);
+  color: var(--color-text-secondary);
   cursor: pointer;
   text-align: left;
 }
 
 .nav-button:hover,
 .nav-button-active {
-  background: var(--brand-soft);
-  color: var(--brand-strong);
+  background: var(--color-primary-soft);
+  color: var(--color-text);
 }
 
 .nav-button-active {
   font-weight: 650;
+  box-shadow: inset 3px 0 var(--color-primary);
 }
 
 .sidebar-footer {
@@ -113,7 +138,7 @@ button:focus-visible {
   align-items: center;
   gap: 11px;
   margin-top: auto;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--color-border);
   padding: 20px 10px 0;
 }
 
@@ -123,7 +148,7 @@ button:focus-visible {
 }
 
 .sidebar-footer span {
-  color: var(--muted);
+  color: var(--color-text-secondary);
   font-size: 12px;
 }
 
@@ -133,8 +158,8 @@ button:focus-visible {
   height: 36px;
   place-items: center;
   border-radius: 50%;
-  background: var(--brand-strong);
-  color: white !important;
+  background: var(--color-primary);
+  color: var(--color-text-inverse) !important;
   font-size: 12px;
   font-weight: 700;
 }
@@ -162,7 +187,7 @@ button:focus-visible {
 
 .eyebrow {
   margin: 0;
-  color: var(--muted);
+  color: var(--color-text-secondary);
   font-size: 12px;
   font-weight: 650;
   letter-spacing: 0;
@@ -183,13 +208,13 @@ button:focus-visible {
 }
 
 .primary-button {
-  background: var(--brand);
+  background: var(--color-primary);
   padding: 0 18px;
-  color: white;
+  color: var(--color-text-inverse);
 }
 
 .primary-button:hover {
-  background: var(--brand-strong);
+  background: var(--color-primary-hover);
 }
 
 .summary-grid {
@@ -203,37 +228,37 @@ button:focus-visible {
   display: grid;
   min-height: 148px;
   align-content: space-between;
-  border: 1px solid var(--border);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
-  background: var(--surface);
+  background: var(--color-surface);
   padding: 20px;
 }
 
 .summary-balance {
-  background: var(--foreground);
-  color: white;
+  background: var(--color-text);
+  color: var(--color-text-inverse);
 }
 
 .summary-label {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--muted);
+  color: var(--color-text-secondary);
   font-size: 13px;
   font-weight: 600;
 }
 
 .summary-balance .summary-label,
 .summary-balance span {
-  color: #b9c6bf;
+  color: var(--color-information-muted);
 }
 
 .income-label {
-  color: var(--brand-strong);
+  color: var(--color-success);
 }
 
 .expense-label {
-  color: var(--danger);
+  color: var(--color-text-strong-secondary);
 }
 
 .summary-card strong {
@@ -242,7 +267,7 @@ button:focus-visible {
 }
 
 .summary-card > span {
-  color: var(--muted);
+  color: var(--color-text-secondary);
   font-size: 12px;
 }
 
@@ -278,17 +303,16 @@ button:focus-visible {
   grid-template-columns: 42px 1fr auto;
   align-items: center;
   gap: 12px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
-  background: var(--surface);
+  background: var(--color-surface);
   padding: 12px 14px;
   cursor: pointer;
   text-align: left;
 }
 
 .capture-button:hover {
-  border-color: #aebbb4;
-  box-shadow: var(--shadow);
+  border-color: var(--color-primary);
 }
 
 .capture-icon,
@@ -305,23 +329,23 @@ button:focus-visible {
 }
 
 .capture-green .capture-icon {
-  background: var(--brand-soft);
-  color: var(--brand-strong);
+  background: var(--color-primary-soft);
+  color: var(--color-text);
 }
 
 .capture-blue .capture-icon {
-  background: var(--blue-soft);
-  color: var(--blue);
+  background: var(--color-information-soft);
+  color: var(--color-information);
 }
 
 .capture-amber .capture-icon {
-  background: var(--amber-soft);
-  color: var(--amber);
+  background: var(--color-warning-soft);
+  color: var(--color-text);
 }
 
 .capture-neutral .capture-icon {
-  background: #edf0ee;
-  color: #4d5a53;
+  background: var(--color-surface-muted);
+  color: var(--color-text-strong-secondary);
 }
 
 .capture-button > span:nth-child(2) {
@@ -331,7 +355,7 @@ button:focus-visible {
 .text-button {
   border: 0;
   background: transparent;
-  color: var(--brand-strong);
+  color: var(--color-primary);
   cursor: pointer;
   font-size: 13px;
   font-weight: 650;
@@ -340,9 +364,9 @@ button:focus-visible {
 .transaction-list {
   overflow: hidden;
   margin-top: 15px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
-  background: var(--surface);
+  background: var(--color-surface);
 }
 
 .transaction-row {
@@ -355,15 +379,15 @@ button:focus-visible {
 }
 
 .transaction-row + .transaction-row {
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--color-border);
 }
 
 .transaction-icon {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: var(--surface-subtle);
-  color: #4d5a53;
+  background: var(--color-surface-muted);
+  color: var(--color-text-strong-secondary);
 }
 
 .transaction-details {
@@ -380,23 +404,23 @@ button:focus-visible {
 }
 
 .transaction-details span {
-  color: var(--muted);
+  color: var(--color-text-secondary);
   font-size: 12px;
 }
 
 .amount-positive {
-  color: var(--brand-strong);
+  color: var(--color-success);
 }
 
 .amount-negative {
-  color: var(--foreground);
+  color: var(--color-text);
 }
 
 .insight-panel {
   align-self: start;
-  border: 1px solid #c8d8cf;
+  border: 1px solid var(--color-information-muted);
   border-radius: 8px;
-  background: var(--brand-soft);
+  background: var(--color-information-soft);
   padding: 22px;
 }
 
@@ -405,8 +429,8 @@ button:focus-visible {
   height: 42px;
   margin-bottom: 28px;
   border-radius: 7px;
-  background: var(--brand);
-  color: white;
+  background: var(--color-ai);
+  color: var(--color-text-inverse);
 }
 
 .insight-panel h2 {
@@ -418,14 +442,14 @@ button:focus-visible {
   display: grid;
   gap: 6px;
   margin: 22px 0;
-  border-top: 1px solid #bfd2c6;
-  border-bottom: 1px solid #bfd2c6;
+  border-top: 1px solid var(--color-information-muted);
+  border-bottom: 1px solid var(--color-information-muted);
   padding: 18px 0;
 }
 
 .insight-answer span,
 .insight-answer p {
-  color: #4e6659;
+  color: var(--color-ai);
   font-size: 12px;
 }
 
@@ -440,9 +464,9 @@ button:focus-visible {
 
 .secondary-button {
   width: 100%;
-  border: 1px solid var(--brand);
+  border: 1px solid var(--color-information);
   background: transparent;
-  color: var(--brand-strong);
+  color: var(--color-information);
 }
 
 .secondary-button:hover {
@@ -540,7 +564,7 @@ button:focus-visible {
     display: grid;
     min-height: 76px;
     grid-template-columns: repeat(3, 1fr);
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--color-border);
     background: rgba(255, 255, 255, 0.96);
     padding: 8px max(16px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
     backdrop-filter: blur(12px);
@@ -552,13 +576,13 @@ button:focus-visible {
     gap: 3px;
     border: 0;
     background: transparent;
-    color: var(--muted);
+    color: var(--color-text-secondary);
     cursor: pointer;
     font-size: 11px;
   }
 
   .mobile-nav .mobile-nav-active {
-    color: var(--brand-strong);
+    color: var(--color-primary);
   }
 
   .mobile-add {
@@ -567,8 +591,8 @@ button:focus-visible {
     height: 40px;
     place-items: center;
     border-radius: 50%;
-    background: var(--brand);
-    color: white;
+    background: var(--color-primary);
+    color: var(--color-text-inverse);
   }
 }
 

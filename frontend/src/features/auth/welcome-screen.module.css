@@ -1,0 +1,176 @@
+.welcome {
+  position: relative;
+  display: grid;
+  min-height: 100svh;
+  overflow: hidden;
+  color: var(--color-text-inverse);
+  isolation: isolate;
+}
+
+.backdrop,
+.overlay {
+  position: absolute;
+  inset: 0;
+}
+
+.backdrop {
+  z-index: -2;
+  background: url("/images/welcome-finance-desk.png") center / cover no-repeat;
+}
+
+.overlay {
+  z-index: -1;
+  background: rgba(9, 31, 20, 0.68);
+}
+
+.header {
+  position: absolute;
+  inset: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px clamp(22px, 5vw, 72px);
+}
+
+.brand {
+  color: var(--color-text-inverse);
+  font-family: var(--font-space-grotesk), Arial, sans-serif;
+  font-size: 25px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.brand strong {
+  color: var(--color-primary-soft);
+}
+
+.signInLink {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 6px;
+  padding: 0 17px;
+  color: var(--color-text-inverse);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.content {
+  align-self: end;
+  width: min(660px, calc(100% - 44px));
+  margin: 0 0 clamp(42px, 8vh, 88px) clamp(22px, 7vw, 104px);
+}
+
+.iconMark {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 22px;
+  place-items: center;
+  border-radius: 7px;
+  background: var(--color-primary-soft);
+  color: var(--color-text);
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: var(--color-primary-soft);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.content h1 {
+  max-width: 620px;
+  margin: 0;
+  font-size: clamp(42px, 6vw, 72px);
+  line-height: 1.02;
+}
+
+.body {
+  max-width: 570px;
+  margin: 20px 0 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.progress {
+  display: flex;
+  gap: 8px;
+  margin-top: 30px;
+}
+
+.progress button {
+  width: 30px;
+  height: 5px;
+  border: 0;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+}
+
+.progress .activeDot {
+  background: var(--color-primary-soft);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 28px;
+}
+
+.backButton,
+.nextButton {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border-radius: 6px;
+  padding: 0 20px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.backButton {
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: transparent;
+  color: var(--color-text-inverse);
+}
+
+.nextButton {
+  border: 1px solid var(--color-primary-soft);
+  background: var(--color-primary-soft);
+  color: var(--color-text);
+}
+
+@media (max-width: 700px) {
+  .backdrop {
+    background-position: 62% center;
+  }
+
+  .overlay {
+    background: rgba(9, 31, 20, 0.75);
+  }
+
+  .header {
+    padding: 20px;
+  }
+
+  .content {
+    width: calc(100% - 40px);
+    margin: 0 20px 34px;
+  }
+
+  .content h1 {
+    font-size: 42px;
+  }
+
+  .body {
+    font-size: 15px;
+  }
+}

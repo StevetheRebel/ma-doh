@@ -1,0 +1,139 @@
+.shell {
+  min-height: 100vh;
+}
+
+.sidebar {
+  position: fixed;
+  inset: 72px auto 0 0;
+  z-index: 20;
+  display: flex;
+  width: 240px;
+  flex-direction: column;
+  border-right: 1px solid var(--color-border);
+  background: var(--color-surface);
+  padding: 20px 10px;
+}
+
+.sidebarNav {
+  display: grid;
+  gap: 6px;
+}
+
+.navLink {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 12px;
+  border-radius: 6px;
+  padding: 0 12px;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+}
+
+.navLink.separated {
+  margin-top: 24px;
+}
+
+.navLink:hover,
+.navLink.active {
+  background: var(--color-primary-soft);
+  color: var(--color-text);
+}
+
+.navLink.active {
+  box-shadow: inset 3px 0 var(--color-primary);
+  font-weight: 650;
+}
+
+.account {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-top: auto;
+  border-top: 1px solid var(--color-border);
+  padding: 20px 10px 0;
+}
+
+.account div {
+  display: grid;
+  gap: 2px;
+}
+
+.account span {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.avatar {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--color-text-inverse) !important;
+  font-weight: 700;
+}
+
+.main {
+  min-height: 100vh;
+  margin-left: 240px;
+  padding: 100px clamp(24px, 4vw, 64px) 60px;
+}
+
+.dashboardMain {
+  background: var(--color-information-soft);
+}
+
+.mobileNav {
+  display: none;
+}
+
+@media (max-width: 960px) {
+  .sidebar {
+    width: 204px;
+  }
+
+  .main {
+    margin-left: 204px;
+    padding-inline: 24px;
+  }
+}
+
+@media (max-width: 700px) {
+  .sidebar {
+    display: none;
+  }
+
+  .main {
+    margin-left: 0;
+    padding: 92px 16px 104px;
+  }
+
+  .mobileNav {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 30;
+    display: grid;
+    min-height: 76px;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.96);
+    padding: 8px max(12px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+    backdrop-filter: blur(12px);
+  }
+
+  .mobileNav a {
+    display: grid;
+    place-items: center;
+    gap: 3px;
+    color: var(--color-text-secondary);
+    font-size: 11px;
+    text-decoration: none;
+  }
+
+  .mobileNav .mobileActive {
+    color: var(--color-primary);
+  }
+
+}

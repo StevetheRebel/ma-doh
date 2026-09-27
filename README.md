@@ -11,9 +11,12 @@ answer questions about the user's money.
 Ma-Doh is a responsive, mobile-first web application being built by a
 four-person hybrid team for the GOMYCODE Come Build with AI Hackathon.
 
-> **Repository status:** The Next.js frontend scaffold and initial responsive
-> Ma-Doh application shell are available in `frontend/`. The FastAPI backend,
-> AI adapters, persistent storage, and feature interactions remain planned.
+> **Repository status:** The Next.js client includes welcome and prototype
+> sign-in screens, a responsive dashboard, manual entry and review, local demo
+> persistence, transaction history and details, chart-backed insights, receipt
+> image selection, voice capture, message parsing, and voice-enabled Ask My
+> Money. The FastAPI backend, real authentication, production AI adapters,
+> database persistence, receipt OCR, and Whisper transcription remain planned.
 
 ## Contents
 
@@ -370,6 +373,7 @@ Run these commands from `frontend/`:
 | `npm run build` | Create and validate the production build |
 | `npm run start` | Run the production build locally |
 | `npm run lint` | Run frontend lint checks |
+| `npm run test` | Run frontend financial-logic tests |
 
 ### Backend commands
 
@@ -525,14 +529,15 @@ not a claim that prepared outputs are live model results.
 
 ## Team Roles
 
-Names will be added after the team confirms role ownership.
+Steve currently owns frontend engineering. The remaining names will be added
+after the team confirms role ownership.
 
-| Role | Location | Primary ownership | Build-day deliverables |
-| --- | --- | --- | --- |
-| **A. Technical and Integration Lead** | Physical | Repository, contracts, analytics, integration, deployment, and Brev | Stable `main`, shared API contract, calculations, deployed system, merges, technical Q&A |
-| **B. Frontend Engineer** | Virtual | React and TypeScript client | Mobile-first shell, capture hub, review form, history, dashboard, and Ask interface |
-| **C. AI and Backend Engineer** | Virtual | FastAPI and AI pipeline | Receipt inference, transcription, message parsing, schema-valid endpoints, tests, and latency evidence |
-| **D. Product, QA, and Submission Lead** | Physical | Product flow, safe data, testing, and submission | Test pack, acceptance checks, privacy copy, 90-second video, project card, and link verification |
+| Role | Current owner | Location | Primary ownership | Build-day deliverables |
+| --- | --- | --- | --- | --- |
+| **A. Technical and Integration Lead** | Unassigned | Physical | Repository, contracts, analytics, integration, deployment, and Brev | Stable `main`, shared API contract, calculations, deployed system, merges, technical Q&A |
+| **B. Frontend Engineer** | Steve | Virtual | Next.js and TypeScript client | Mobile-first shell, capture hub, review form, history, dashboard, and Ask interface |
+| **C. AI and Backend Engineer** | Unassigned | Virtual | FastAPI and AI pipeline | Receipt inference, transcription, message parsing, schema-valid endpoints, tests, and latency evidence |
+| **D. Product, QA, and Submission Lead** | Unassigned | Physical | Product flow, safe data, testing, and submission | Test pack, acceptance checks, privacy copy, 90-second video, project card, and link verification |
 
 ### Working agreement
 

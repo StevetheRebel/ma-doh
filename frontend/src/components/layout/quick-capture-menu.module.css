@@ -1,0 +1,116 @@
+.root {
+  position: fixed;
+  z-index: 60;
+  right: 28px;
+  bottom: 28px;
+  width: 58px;
+  height: 58px;
+}
+
+.dismissLayer {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  border: 0;
+  background: rgba(23, 33, 28, 0.08);
+  cursor: default;
+}
+
+.toggle,
+.option {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  box-shadow: var(--shadow-menu);
+  cursor: pointer;
+}
+
+.toggle {
+  z-index: 2;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.toggle svg {
+  transition: transform 180ms ease;
+}
+
+.open .toggle svg {
+  transform: rotate(45deg);
+}
+
+.option {
+  width: 48px;
+  height: 48px;
+  margin: 5px;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--color-text-strong-secondary);
+  opacity: 0;
+  pointer-events: none;
+  text-decoration: none;
+  transform: translate(0, 0) scale(0.65);
+  transition: opacity 150ms ease, transform 190ms ease;
+}
+
+.open .option {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.open .manual { transform: translate(-112px, -8px) scale(1); }
+.open .message { transform: translate(-96px, -72px) scale(1); }
+.open .voice { transform: translate(-54px, -120px) scale(1); }
+.open .receipt { transform: translate(8px, -138px) scale(1); }
+
+.option:hover,
+.option:focus-visible {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  color: var(--color-text);
+}
+
+.optionLabel {
+  position: absolute;
+  right: 56px;
+  width: max-content;
+  border-radius: 5px;
+  background: var(--color-text);
+  padding: 6px 8px;
+  color: var(--color-text-inverse);
+  font-size: 11px;
+  font-weight: 650;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(5px);
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.option:hover .optionLabel,
+.option:focus-visible .optionLabel {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 700px) {
+  .root {
+    right: 18px;
+    bottom: 94px;
+  }
+
+  .open .manual { transform: translate(-104px, -4px) scale(1); }
+  .open .message { transform: translate(-92px, -66px) scale(1); }
+  .open .voice { transform: translate(-50px, -112px) scale(1); }
+  .open .receipt { transform: translate(6px, -130px) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toggle svg,
+  .option {
+    transition: none;
+  }
+}
