@@ -1,5 +1,5 @@
-import { SettingsView } from "@/features/settings/settings-view";
+import { SettingsHub } from "@/features/settings/settings-hub";
 
 export default function SettingsPage() {
-  return <SettingsView />;
+  return <SettingsHub />;
 }

@@ -20,6 +20,10 @@ export const transactionCategories = [
   "Entertainment",
   "Shopping",
   "Savings",
+  "Gifts",
+  "Fees",
+  "Other income",
+  "Other expenses",
   "Other",
 ] as const;
 
@@ -42,6 +46,7 @@ export const transactionDraftSchema = z.object({
   id: z.string().min(1),
   type: z.enum(transactionTypes),
   amount: z.number().positive("Amount must be greater than zero"),
+  amountExact: z.string().optional(),
   currency: z.literal("KES"),
   merchant: z.string().trim().min(1, "Source is required").nullable(),
   category: z.enum(transactionCategories),

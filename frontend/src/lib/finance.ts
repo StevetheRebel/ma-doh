@@ -1,3 +1,4 @@
+import Decimal from "decimal.js";
 import type { Transaction, TransactionCategory } from "@/types/transaction";
 
 export type FinancialSummary = {
@@ -68,12 +69,8 @@ export function calculateSummary(transactions: Transaction[]): FinancialSummary 
   };
 }
 
-export function formatKes(amount: number) {
-  return new Intl.NumberFormat("en-KE", {
-    style: "currency",
-    currency: "KES",
-    maximumFractionDigits: 0,
-  })
-    .format(amount)
-    .replace("Ksh", "KES");
+export function formatKes(amount: number | string) {
+  const value = new Decimal(amount).toFixed(2);
+  const [whole, cents] = value.split(".");
+  return `KES ${whole.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}.${cents}`;
 }

@@ -13,13 +13,16 @@ import { useMemo } from "react";
 
 import { useAppPreferences } from "@/components/layout/app-preferences";
 import { useTransactions } from "@/features/transactions/transaction-provider";
-import { calculateSummary, formatKes } from "@/lib/finance";
+import { formatKes } from "@/lib/finance";
+
+import { useSummary } from "@/lib/use-summary";
+import { categoryLabels } from "@/types/api";
 
 import { DashboardCharts } from "./dashboard-charts";
 import styles from "./dashboard-view.module.css";
 
 export function DashboardView() {
-  const { transactions } = useTransactions();
+  const { transactions, balances, drafts } = useTransactions();
   const { period, hideAmounts } = useAppPreferences();
   const filteredTransactions = useMemo(
     () =>
@@ -30,10 +33,7 @@ export function DashboardView() {
           ),
     [period, transactions],
   );
-  const summary = useMemo(
-    () => calculateSummary(filteredTransactions),
-    [filteredTransactions],
-  );
+  const { data: summary, error } = useSummary(period);
   const recent = useMemo(
     () =>
       [...filteredTransactions]
@@ -46,24 +46,32 @@ export function DashboardView() {
         .slice(0, 3),
     [filteredTransactions],
   );
-  const money = (amount: number) =>
+  const money = (amount: number | string) =>
     hideAmounts ? "KES ••••••" : formatKes(amount);
 
+  if (!summary) return <p role="status">{error || "Loading summary…"}</p>;
+  const largest = summary.categories[0];
   return (
     <>
+      <p>
+        <Link href="/transactions/review">
+          {drafts.length} drafts awaiting review
+        </Link>{" "}
+        · <Link href="/settings">Manage accounts</Link>
+      </p>
       <section className={styles.summaryGrid} aria-label="Financial summary">
         <article className={styles.summaryCard}>
           <div className={styles.summaryLabel}>
             <CircleDollarSign size={18} aria-hidden="true" />
-            Available balance
+            Estimated cash balance
           </div>
-          <strong>{money(summary.netCashFlow)}</strong>
-          <span>Across confirmed records</span>
+          <strong>{money(balances.total_estimated_cash)}</strong>
+          <span>Opening balances + records, as of {balances.as_of}</span>
         </article>
         <article className={styles.summaryCard}>
           <div className={`${styles.summaryLabel} ${styles.incomeLabel}`}>
             <ArrowDownLeft size={18} aria-hidden="true" />
-            Income this month
+            Income
           </div>
           <strong className={styles.positive}>{money(summary.income)}</strong>
           <span>{period === "all" ? "All records" : "Selected month"}</span>
@@ -71,7 +79,7 @@ export function DashboardView() {
         <article className={styles.summaryCard}>
           <div className={styles.summaryLabel}>
             <ArrowUpRight size={18} aria-hidden="true" />
-            Expenses this month
+            Expenses
           </div>
           <strong>{money(summary.expenses)}</strong>
           <span>{period === "all" ? "All records" : "Selected month"}</span>
@@ -81,8 +89,8 @@ export function DashboardView() {
             <WalletCards size={18} aria-hidden="true" />
             Net cash flow
           </div>
-          <strong>{money(summary.netCashFlow)}</strong>
-          <span>{summary.transactionCount} confirmed records</span>
+          <strong>{money(summary.net_cash_flow)}</strong>
+          <span>{summary.transaction_count} confirmed records</span>
         </article>
       </section>
 
@@ -135,7 +143,7 @@ export function DashboardView() {
                         : transaction.type === "transfer"
                           ? ""
                           : "- "}
-                      {money(transaction.amount)}
+                      {money(transaction.amountExact ?? transaction.amount)}
                     </strong>
                   </Link>
                 ))
@@ -160,10 +168,12 @@ export function DashboardView() {
           </div>
           <div className={styles.insightAnswer}>
             <span>Largest category</span>
-            <strong>{summary.largestCategory ?? "No expenses yet"}</strong>
+            <strong>
+              {largest ? categoryLabels[largest.category] : "No expenses yet"}
+            </strong>
             <p>
-              {summary.largestCategory
-                ? `${money(summary.largestCategoryTotal)} in confirmed expenses.`
+              {largest
+                ? `${money(largest.amount)} in confirmed expenses.`
                 : "Add an expense to see your leading category."}
             </p>
           </div>

@@ -40,7 +40,7 @@ export default async function AddTransactionPage({ searchParams }: { searchParam
           );
         })}
       </section>
-      {method ? <CaptureMethodPanel method={method} /> : null}
+      {method ? <CaptureMethodPanel key={method} method={method} /> : null}
     </div>
   );
 }

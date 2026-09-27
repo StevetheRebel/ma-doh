@@ -1,3 +1,5 @@
+> **Implemented application:** See [Integration and local setup](docs/INTEGRATION.md) for the running Next.js + FastAPI + Supabase architecture, environment configuration, migration commands, and tests. The strategy/design content below includes future features beyond the MVP.
+
 # Ma-Doh
 
 **Capture every transaction. Understand every shilling.**

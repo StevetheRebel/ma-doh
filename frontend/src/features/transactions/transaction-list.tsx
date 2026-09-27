@@ -19,7 +19,11 @@ export function TransactionList() {
       .filter((transaction) => transaction.verificationStatus === "confirmed")
       .filter((transaction) =>
         normalized
-          ? [transaction.merchant, transaction.category, transaction.description]
+          ? [
+              transaction.merchant,
+              transaction.category,
+              transaction.description,
+            ]
               .filter(Boolean)
               .some((value) => value?.toLowerCase().includes(normalized))
           : true,
@@ -60,20 +64,39 @@ export function TransactionList() {
       {visibleTransactions.length ? (
         <div className={styles.transactionList}>
           {visibleTransactions.map((transaction) => {
-            const incoming = transaction.type === "income" || transaction.type === "refund";
+            const incoming =
+              transaction.type === "income" || transaction.type === "refund";
             const Icon = incoming ? ArrowDownLeft : ArrowUpRight;
             return (
-              <Link className={styles.transactionRow} href={`/transactions/${transaction.id}`} key={transaction.id}>
-                <span className={styles.transactionIcon}><Icon size={19} aria-hidden="true" /></span>
+              <Link
+                className={styles.transactionRow}
+                href={`/transactions/${transaction.id}`}
+                key={transaction.id}
+              >
+                <span className={styles.transactionIcon}>
+                  <Icon size={19} aria-hidden="true" />
+                </span>
                 <div className={styles.transactionMeta}>
                   <strong>{transaction.merchant}</strong>
-                  <span>{transaction.category} · {transaction.paymentMethod}</span>
+                  <span>
+                    {transaction.category} · {transaction.paymentMethod}
+                  </span>
                 </div>
                 <div className={styles.transactionAmount}>
                   <strong className={incoming ? styles.positive : ""}>
-                    {incoming ? "+ " : transaction.type === "transfer" ? "" : "- "}{formatKes(transaction.amount)}
+                    {incoming
+                      ? "+ "
+                      : transaction.type === "transfer"
+                        ? ""
+                        : "- "}
+                    {formatKes(transaction.amountExact ?? transaction.amount)}
                   </strong>
-                  <span>{new Date(transaction.transactionDate).toLocaleDateString("en-KE", { day: "numeric", month: "short", year: "numeric" })}</span>
+                  <span>
+                    {new Date(transaction.transactionDate).toLocaleDateString(
+                      "en-KE",
+                      { day: "numeric", month: "short", year: "numeric" },
+                    )}
+                  </span>
                 </div>
               </Link>
             );

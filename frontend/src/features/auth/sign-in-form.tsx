@@ -1,95 +1,135 @@
 "use client";
-
-import { ArrowLeft, ArrowRight, Eye, EyeOff, LockKeyhole } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
-
+import { getSupabase } from "@/lib/supabase";
 import styles from "./sign-in-form.module.css";
-
 export function SignInForm() {
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
-  const [resetNotice, setResetNotice] = useState("");
-
-  function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    router.push("/dashboard");
+  const [signup, setSignup] = useState(false),
+    [email, setEmail] = useState(""),
+    [error, setError] = useState(""),
+    [notice, setNotice] = useState(""),
+    [busy, setBusy] = useState(false);
+  async function submit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+    const normalizedEmail = email.trim();
+    setBusy(true);
+    setError("");
+    setNotice("");
+    try {
+      const auth = getSupabase().auth;
+      const result = signup
+        ? await auth.signUp({
+            email: normalizedEmail,
+            password: String(data.get("password")),
+            options: {
+              data: { display_name: String(data.get("name")).trim() },
+              emailRedirectTo: `${location.origin}/dashboard`,
+            },
+          })
+        : await auth.signInWithPassword({
+            email: normalizedEmail,
+            password: String(data.get("password")),
+          });
+      if (result.error) throw result.error;
+      if (result.data.session) router.replace("/dashboard");
+      else
+        setNotice(
+          `Account created. Check ${normalizedEmail} for the confirmation link, then sign in.`,
+        );
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
   }
-
+  async function reset() {
+    setBusy(true);
+    setError("");
+    try {
+      if (!email.trim()) throw new Error("Enter your email first.");
+      const { error } = await getSupabase().auth.resetPasswordForEmail(email, {
+        redirectTo: `${location.origin}/reset-password`,
+      });
+      if (error) throw error;
+      setNotice("If an account exists, a reset link has been sent.");
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
   return (
     <main className={styles.page}>
-      <section className={styles.visual} aria-label="Ma-Doh financial records">
-        <Link className={styles.visualBrand} href="/">
-          <span>Ma</span><strong>Doh</strong>
+      <section className={styles.visual}>
+        <Link href="/" className={styles.visualBrand}>
+          Ma-Doh
         </Link>
         <div>
-          <LockKeyhole size={24} aria-hidden="true" />
-          <p>Your records stay under your control.</p>
+          <p>Understand your money.</p>
+          <span>Capture, review, and see where it goes.</span>
         </div>
       </section>
-
       <section className={styles.formPanel}>
         <div className={styles.formInner}>
-          <Link className={styles.backLink} href="/">
-            <ArrowLeft size={17} aria-hidden="true" />
-            Back
-          </Link>
-
-          <div className={styles.mobileBrand} aria-hidden="true">
-            <span>Ma</span><strong>Doh</strong>
-          </div>
-
-          <p className={styles.eyebrow}>Welcome back</p>
-          <h1>Sign in to Ma-Doh</h1>
-          <p className={styles.intro}>Continue to your personal financial overview.</p>
-
-          <form onSubmit={submit}>
-            <label>
-              <span>Email address</span>
-              <input autoComplete="email" defaultValue="steve@example.com" required type="email" />
-            </label>
-
-            <label>
-              <span>Password</span>
-              <div className={styles.passwordField}>
-                <input autoComplete="current-password" defaultValue="madoh-demo" minLength={8} required type={showPassword ? "text" : "password"} />
-                <button
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                  onClick={() => setShowPassword((value) => !value)}
-                  type="button"
-                >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
-              </div>
-            </label>
-
-            <div className={styles.formMeta}>
-              <label className={styles.remember}>
-                <input type="checkbox" />
-                <span>Remember me</span>
+          <form aria-busy={busy} onSubmit={submit}>
+            <h1>{signup ? "Create your account" : "Welcome back"}</h1>
+            {signup && (
+              <label>
+                Name
+                <input name="name" required autoComplete="name" />
               </label>
-              <button
-                className={styles.textButton}
-                onClick={() => setResetNotice("Password recovery is not connected in this prototype.")}
-                type="button"
-              >
-                Forgot password?
-              </button>
-            </div>
-
-            {resetNotice ? <p className={styles.resetNotice} role="status">{resetNotice}</p> : null}
-
-            <button className={styles.submitButton} type="submit">
-              Sign in
-              <ArrowRight size={18} aria-hidden="true" />
+            )}
+            <label>
+              Email
+              <input
+                type="email"
+                required
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </label>
+            <label>
+              Password
+              <input
+                type="password"
+                name="password"
+                required
+                minLength={6}
+                autoComplete={signup ? "new-password" : "current-password"}
+              />
+            </label>
+            {error && (
+              <p className={styles.authError} role="alert">
+                {error}
+              </p>
+            )}
+            {notice && (
+              <p className={styles.authNotice} role="status">
+                {notice}
+              </p>
+            )}
+            <button disabled={busy} type="submit">
+              {busy ? "Please wait…" : signup ? "Create account" : "Sign in"}
+            </button>
+            <button disabled={busy} type="button" onClick={reset}>
+              Forgot password?
+            </button>
+            <button
+              disabled={busy}
+              type="button"
+              onClick={() => {
+                setSignup(!signup);
+                setError("");
+                setNotice("");
+              }}
+            >
+              {signup ? "Already registered? Sign in" : "Create an account"}
             </button>
           </form>
-
-          <div className={styles.demoNotice}>
-            <strong>Prototype access</strong>
-            <p>Any valid-looking email and eight-character password opens the fictional demo account.</p>
-          </div>
         </div>
       </section>
     </main>
