@@ -63,6 +63,12 @@ export const transactionDraftSchema = z.object({
 });
 
 export type Transaction = z.infer<typeof transactionDraftSchema>;
+
+export type TransactionDraft = Omit<
+  Transaction,
+  "id" | "verificationStatus" | "createdAt"
+>;
+
 export type TransactionType = Transaction["type"];
 export type TransactionCategory = Transaction["category"];
 export type PaymentMethod = NonNullable<Transaction["paymentMethod"]>;
@@ -80,8 +86,12 @@ export type ManualTransactionInput = {
   attachmentName: string | null;
 };
 
-export function createManualDraft(input: ManualTransactionInput): Transaction {
-  const timestamp = new Date(`${input.date}T${input.time}:00+03:00`).toISOString();
+export function createManualDraft(
+  input: ManualTransactionInput
+): Transaction {
+  const timestamp = new Date(
+    `${input.date}T${input.time}:00+03:00`
+  ).toISOString();
 
   return transactionDraftSchema.parse({
     id: crypto.randomUUID(),
@@ -92,13 +102,15 @@ export function createManualDraft(input: ManualTransactionInput): Transaction {
     category: input.type === "income" ? "Salary" : input.category,
     description: input.type === "income" ? "" : input.description,
     transactionDate: timestamp,
-    paymentMethod: input.type === "income" ? "Other" : input.paymentMethod,
+    paymentMethod:
+      input.type === "income" ? "Other" : input.paymentMethod,
     reference: null,
     source: "manual",
     confidence: null,
     verificationStatus: "draft",
     createdAt: new Date().toISOString(),
     recurring: input.recurring,
-    attachmentName: input.type === "income" ? null : input.attachmentName,
+    attachmentName:
+      input.type === "income" ? null : input.attachmentName,
   });
 }

@@ -1,0 +1,333 @@
+.page {
+  width: min(100%, 1120px);
+  padding-bottom: 8px;
+}
+
+.pageHeading h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.pageHeading p {
+  margin: 5px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+/* ---------- Profile card ---------- */
+.profileCard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  padding: 16px 20px;
+  box-shadow: 0 3px 10px rgba(23, 33, 28, 0.08);
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #1c1c1c;
+  color: #fff;
+  font-family: var(--font-space-grotesk), Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.profileInfo {
+  display: grid;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
+.profileInfo strong {
+  font-size: 15px;
+}
+
+.profileInfo span {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.editButton {
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-surface);
+  padding: 8px 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.editButton:hover {
+  background: var(--color-surface-muted);
+}
+
+/* ---------- Section labels ---------- */
+.sectionLabel {
+  margin: 26px 0 10px;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ---------- Generic list card ---------- */
+.listCard {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  box-shadow: 0 3px 10px rgba(23, 33, 28, 0.08);
+  overflow: hidden;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+  text-align: left;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.rowButton {
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.rowButton:hover {
+  background: var(--color-surface-muted);
+}
+
+.rowButton:last-child {
+  border-bottom: none;
+}
+
+.rowButton:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+/* ---------- Icon bubble ---------- */
+.iconBubble {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: var(--color-surface-muted);
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.iconBubbleRed {
+  background: #fde6e6;
+  color: #c0392b;
+}
+
+/* ---------- Row text ---------- */
+.rowText {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.rowTitle {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.titleRed {
+  color: #c0392b;
+}
+
+.rowDesc {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.rowValue {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.chevron {
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.chevronRed {
+  color: #c0392b;
+  flex-shrink: 0;
+}
+
+/* ---------- Toggle switch ---------- */
+.toggle {
+  position: relative;
+  width: 44px;
+  height: 26px;
+  border: none;
+  border-radius: 999px;
+  background: #d5dcd7;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+
+.toggleOn {
+  background: #15945a;
+}
+
+.knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.toggleOn .knob {
+  transform: translateX(18px);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ---------- Privacy centre ---------- */
+.privacyCard {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  box-shadow: 0 3px 10px rgba(23, 33, 28, 0.08);
+  overflow: hidden;
+}
+
+.privacySection {
+  padding: 20px;
+}
+
+.privacyHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #167818;
+}
+
+.headerRed {
+  color: #c0392b;
+}
+
+.privacyList {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.privacyList li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.checkIcon {
+  color: #167818;
+  flex-shrink: 0;
+}
+
+.xIcon {
+  color: #c0392b;
+  flex-shrink: 0;
+}
+
+.privacyDivider {
+  height: 1px;
+  background: var(--color-border);
+}
+
+.privacyActions {
+  margin-top: 14px;
+}
+
+/* ---------- Danger zone ---------- */
+.dangerCard .rowButton:hover {
+  background: #fdf3f3;
+}
+
+/* ---------- Footer note ---------- */
+.footerNote {
+  margin: 28px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 700px) {
+  .row {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .rowValue {
+    font-size: 12px;
+  }
+
+  .editButton {
+    padding: 6px 14px;
+  }
+
+  .privacySection {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .row {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .rowValue {
+    display: none;
+  }
+
+  .profileCard {
+    padding: 14px 16px;
+  }
+}

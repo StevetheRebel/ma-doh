@@ -1,2 +1,5 @@
-import { AccountsView } from "@/features/accounts/accounts-view";
-export default function SettingsPage(){return <AccountsView/>}
+import { SettingsHub } from "@/features/settings/settings-hub";
+
+export default function SettingsPage() {
+  return <SettingsHub />;
+}
