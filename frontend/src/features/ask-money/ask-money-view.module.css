@@ -1,0 +1,203 @@
+.page {
+  width: min(100%, 820px);
+  margin-inline: auto;
+}
+
+.askPanel {
+  margin-top: 28px;
+  border: 1px solid var(--color-information-muted);
+  border-radius: 8px;
+  background: var(--color-information-soft);
+  padding: clamp(22px, 5vw, 36px);
+}
+
+.aiMark {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 7px;
+  background: var(--color-ai);
+  color: var(--color-text-inverse);
+}
+
+.question {
+  margin: 24px 0 0;
+  color: var(--color-ai);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.answer {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+  border-top: 1px solid var(--color-information-muted);
+  padding-top: 22px;
+}
+
+.answer span {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.answer strong {
+  font-family: var(--font-space-grotesk), Arial, sans-serif;
+  font-size: clamp(28px, 6vw, 42px);
+}
+
+.answer p {
+  margin: 0;
+  color: var(--color-ai);
+  line-height: 1.6;
+}
+
+.evidence {
+  display: grid;
+  gap: 8px;
+  margin-top: 26px;
+}
+
+.evidence h2 {
+  margin: 0 0 4px;
+  font-size: 15px;
+}
+
+.evidence a {
+  display: grid;
+  min-height: 46px;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid var(--color-information-muted);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.suggestions button {
+  min-height: 38px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface);
+  padding: 0 14px;
+  color: var(--color-text-strong-secondary);
+  font-size: 13px;
+}
+
+.suggestions button:hover {
+  border-color: var(--color-information);
+  color: var(--color-information);
+}
+
+.askForm {
+  position: sticky;
+  bottom: 18px;
+  display: grid;
+  min-height: 56px;
+  grid-template-columns: auto minmax(0, 1fr) 44px 44px;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  padding: 6px 6px 6px 16px;
+  box-shadow: var(--shadow-menu);
+}
+
+.askForm > svg {
+  color: var(--color-text-secondary);
+}
+
+.askForm input {
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  color: var(--color-text);
+  font: inherit;
+}
+
+.askForm button {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.voiceButton {
+  border: 1px solid var(--color-border) !important;
+  background: var(--color-surface-muted) !important;
+  color: var(--color-information) !important;
+}
+
+.voiceButton:hover {
+  border-color: var(--color-information) !important;
+}
+
+.voiceButton.listening {
+  border-color: var(--color-danger) !important;
+  background: var(--color-danger-soft) !important;
+  color: var(--color-danger) !important;
+  animation: listeningPulse 1.4s ease-in-out infinite;
+}
+
+.sendButton {
+  border: 0;
+  background: var(--color-information);
+  color: var(--color-text-inverse);
+}
+
+.speechStatus {
+  margin: 8px 4px 0;
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  text-align: right;
+}
+
+.activeStatus {
+  color: var(--color-danger);
+}
+
+@keyframes listeningPulse {
+  50% { box-shadow: 0 0 0 5px color-mix(in srgb, var(--color-danger) 18%, transparent); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .voiceButton.listening { animation: none; }
+}
+
+@media (max-width: 700px) {
+  .askForm {
+    bottom: 150px;
+  }
+
+  .suggestions {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .suggestions button {
+    flex: 0 0 auto;
+  }
+
+  .askForm {
+    gap: 6px;
+    padding-left: 12px;
+  }
+
+  .speechStatus {
+    margin-bottom: 62px;
+  }
+}

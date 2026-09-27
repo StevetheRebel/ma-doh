@@ -1,0 +1,39 @@
+.panel {
+  display: grid;
+  min-height: 320px;
+  place-items: center;
+  align-content: center;
+  gap: 12px;
+  margin-top: 28px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  padding: 32px;
+  text-align: center;
+}
+
+.panel svg {
+  color: var(--color-primary);
+}
+
+.panel h2,
+.panel p {
+  margin: 0;
+}
+
+.panel p {
+  max-width: 520px;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+}
+
+.panel a {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  color: var(--color-primary);
+  font-weight: 650;
+  text-decoration: none;
+}

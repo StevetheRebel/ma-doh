@@ -1,0 +1,44 @@
+.page { width: min(100%, 1120px); }
+.pageHeading h1 { margin: 0; font-size: 28px; }
+.pageHeading p { margin: 5px 0 0; color: var(--color-text-secondary); font-size: 13px; }
+.summaryGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 24px; }
+.summaryGrid article { display: grid; min-height: 104px; align-content: center; gap: 8px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); padding: 16px; box-shadow: 0 3px 10px rgba(23,33,28,.08); }
+.summaryGrid span { color: var(--color-text-secondary); font-size: 11px; font-weight: 700; text-transform: uppercase; }
+.summaryGrid strong { font-family: var(--font-space-grotesk),Arial,sans-serif; font-size: 24px; }
+.summaryGrid small { color: var(--color-text-secondary); font-size: 10px; }
+.positive { color: var(--color-success); }
+.chartGrid { display: grid; grid-template-columns: minmax(0,1.7fr) minmax(280px,1fr); gap: 18px; margin-top: 22px; }
+.chartCard { min-width: 0; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); padding: 20px; box-shadow: 0 3px 10px rgba(23,33,28,.08); }
+.cardHeading { display: flex; min-height: 42px; align-items: start; justify-content: space-between; gap: 16px; }
+.cardHeading h2 { margin: 0; font-size: 17px; }
+.cardHeading p { margin: 5px 0 0; color: var(--color-text-secondary); font-size: 11px; }
+.chartFrame { height: 240px; margin-top: 12px; }
+.legend,.legend span { display: flex; align-items: center; }
+.legend { gap: 12px; color: var(--color-text-secondary); font-size: 10px; }
+.legend span { gap: 5px; }
+.legend i,.tooltip i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; }
+.incomeDot { background:#a5e1c2; }.expenseDot { background:#404084; }
+.tooltip { display: grid; gap: 6px; border: 1px solid var(--color-border); border-radius: 6px; background: var(--color-surface); padding: 10px 12px; box-shadow: 0 5px 16px rgba(23,33,28,.14); font-size: 11px; }
+.tooltip span { display: flex; align-items: center; gap: 6px; }
+.categoryList { display: grid; gap: 15px; margin-top: 20px; }
+.categoryList > div > div:first-child { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 6px; font-size: 11px; }
+.categoryList strong { font-size: 10px; }
+.categoryTrack { overflow: hidden; height: 5px; border-radius: 3px; background: var(--color-surface-muted); }
+.categoryTrack span { display: block; height: 100%; border-radius: inherit; }
+.empty { color: var(--color-text-secondary); font-size: 13px; }
+.weeklyCard { grid-column: 1/-1; }
+.weekChart { height: 210px; margin-top: 8px; }
+.findingsSection { margin-top: 24px; }
+.findingsHeading { display: flex; align-items: end; justify-content: space-between; gap: 16px; }
+.findingsHeading h2 { margin: 0; font-size: 21px; }
+.findingsHeading span { color: var(--color-text-secondary); font-size: 11px; }
+.findingsGrid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; margin-top: 14px; }
+.findingCard { display: grid; min-height: 190px; grid-template-rows: auto auto 1fr auto; gap: 10px; border: 1px solid var(--color-border); border-radius: 8px; background: var(--color-surface); padding: 20px; box-shadow: 0 3px 10px rgba(23,33,28,.08); }
+.findingCard > svg { color: var(--color-primary); }
+.findingCard h3 { margin: 0; font-size: 16px; }
+.findingCard p { margin: 0; color: var(--color-text-secondary); font-size: 12px; line-height: 1.55; }
+.findingCard footer { display: flex; align-items: center; justify-content: space-between; gap: 14px; border-top: 1px solid var(--color-border); padding-top: 12px; color: var(--color-text-secondary); font-size: 10px; }
+.findingCard footer a { display: inline-flex; flex-shrink: 0; align-items: center; gap: 4px; color: var(--color-text); font-weight: 700; text-decoration: none; }
+@media (max-width: 980px) { .chartGrid { grid-template-columns: 1fr; }.weeklyCard { grid-column:auto; }.summaryGrid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width: 700px) { .summaryGrid { gap:10px; }.summaryGrid article { min-height:112px; padding:14px; }.summaryGrid strong { font-size:20px; }.findingsGrid { grid-template-columns:1fr; }.chartCard { padding:16px 10px; }.cardHeading { padding:0 6px; }.legend { display:none; }.findingsHeading { align-items:start; flex-direction:column; }.findingCard footer { align-items:start; flex-direction:column; }.chartFrame { height:220px; } }
+@media (max-width: 390px) { .summaryGrid { grid-template-columns:1fr; } }
