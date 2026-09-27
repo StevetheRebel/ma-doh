@@ -20,18 +20,8 @@
 }
 
 .brand {
-  display: grid;
-  width: 42px;
-  height: 42px;
-  flex: 0 0 42px;
-  place-items: center;
-  border-radius: 8px;
-  background: var(--color-primary);
-  color: var(--color-warning-soft);
-  font-family: var(--font-space-grotesk), Arial, sans-serif;
-  font-size: 25px;
-  font-weight: 800;
-  text-decoration: none;
+  width: 10rem;
+  height: 38px;
 }
 
 .greeting {
@@ -49,7 +39,7 @@
 
 .greeting strong {
   font-family: var(--font-space-grotesk), Arial, sans-serif;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .mobileGreeting {
@@ -169,7 +159,7 @@
   }
 
   .brand {
-    width: 38px;
+    width: 10rem;
     height: 38px;
     flex-basis: 38px;
     font-size: 22px;

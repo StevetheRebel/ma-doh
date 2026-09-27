@@ -1,5 +1,5 @@
-import { ComingSoonView } from "@/components/layout/coming-soon-view";
+import { SettingsView } from "@/features/settings/settings-view";
 
 export default function SettingsPage() {
-  return <ComingSoonView title="Settings" description="Privacy, source permissions, categories, and account preferences will be managed here." />;
+  return <SettingsView />;
 }

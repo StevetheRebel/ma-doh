@@ -4,9 +4,15 @@ import { Bell, CalendarDays, Eye, EyeOff, UserRound } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-import { appPeriods, type AppPeriod, useAppPreferences } from "@/components/layout/app-preferences";
+import {
+  appPeriods,
+  type AppPeriod,
+  useAppPreferences,
+} from "@/components/layout/app-preferences";
 
 import styles from "./app-topbar.module.css";
+import Image from "next/image";
+// import logo from "@/../public/images/full_logo.png";
 
 export function AppTopbar() {
   const { period, setPeriod, hideAmounts, toggleAmounts } = useAppPreferences();
@@ -16,13 +22,33 @@ export function AppTopbar() {
   return (
     <header className={styles.topbar}>
       <div className={styles.identity}>
-        <Link className={styles.brand} href="/dashboard" aria-label="Ma-Doh dashboard">M</Link>
+        <Link
+          className={styles.brand}
+          href="/dashboard"
+          aria-label="Ma-Doh dashboard"
+        >
+          <Image
+            src="/images/full_logo.png"
+            alt="Ma-Doh Logo"
+            width={500}
+            height={500}
+          />
+        </Link>
         <div className={styles.greeting}>
           <strong>
-            <span className={styles.desktopGreeting}>Good morning, Steve</span>
+              <span className={styles.desktopGreeting}>
+                Good morning, Steve
+              </span>
             <span className={styles.mobileGreeting}>Steve</span>
           </strong>
-          <span>Sunday, 27 September 2026</span>
+          <span>
+            {new Date().toLocaleDateString("en-Gb", {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
+          </span>
         </div>
       </div>
 
@@ -30,15 +56,22 @@ export function AppTopbar() {
         <label className={styles.periodControl}>
           <CalendarDays size={16} aria-hidden="true" />
           <span className="sr-only">Dashboard period</span>
-          <select value={period} onChange={(event) => setPeriod(event.target.value as AppPeriod)}>
+          <select
+            value={period}
+            onChange={(event) => setPeriod(event.target.value as AppPeriod)}
+          >
             {appPeriods.map((option) => (
-              <option key={option.value} value={option.value}>{option.label}</option>
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
             ))}
           </select>
         </label>
 
         <button
-          aria-label={hideAmounts ? "Show monetary values" : "Hide monetary values"}
+          aria-label={
+            hideAmounts ? "Show monetary values" : "Hide monetary values"
+          }
           aria-pressed={hideAmounts}
           className={styles.iconButton}
           onClick={toggleAmounts}
