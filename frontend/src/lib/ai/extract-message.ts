@@ -1,7 +1,13 @@
 import type { TransactionDraft } from "@/types/transaction";
+import { apiRequest } from "@/lib/integrations/api";
 
 export async function extractMessage(
   input: string
 ): Promise<TransactionDraft> {
-  throw new Error("Not implemented");
+  return apiRequest<TransactionDraft>("/api/extract/message", {
+    method: "POST",
+    body: JSON.stringify({
+      message: input,
+    }),
+  });
 }
