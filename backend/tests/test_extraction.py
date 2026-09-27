@@ -1,12 +1,8 @@
 from datetime import date
 from decimal import Decimal
-from types import SimpleNamespace
-from unittest.mock import MagicMock
 
-import httpx
 import pytest
 from fastapi import HTTPException
-from openai import APITimeoutError
 
 from app import ai
 from app.parsing import parse_mpesa
@@ -44,36 +40,43 @@ def test_foreign_currency_not_relabelled():
     assert exc.value.status_code == 422
 
 
-def test_responses_adapter_uses_schema_and_nonretention(monkeypatch):
-    api = MagicMock()
-    api.__enter__.return_value = api
-    api.responses.parse.return_value = SimpleNamespace(
-        output_parsed=Extraction.model_validate({"transactions": [extracted()], "warnings": []})
-    )
-    monkeypatch.setattr(ai, "client", lambda: api)
+def test_gemini_adapter_uses_validated_schema(monkeypatch):
+    calls = []
+
+    def structured(schema, instructions, content):
+        calls.append((schema, instructions, content))
+        return Extraction.model_validate({"transactions": [extracted()], "warnings": []})
+
+    monkeypatch.setattr(ai.gemini, "structured", structured)
     result, warnings = ai.extract("Lunch KES 125.50 on 2026-01-10", "Africa/Nairobi")
     assert result[0]["amount"] == Decimal("125.50")
     assert result[0]["occurred_on"] == date(2026, 1, 10)
-    kwargs = api.responses.parse.call_args.kwargs
-    assert kwargs["store"] is False and kwargs["text_format"] is Extraction
+    assert calls[0][0] is Extraction
+    assert calls[0][2][0]["type"] == "input_text"
 
 
 def test_refusal_and_timeout_are_explicit(monkeypatch):
-    api = MagicMock()
-    api.__enter__.return_value = api
-    monkeypatch.setattr(ai, "client", lambda: api)
-    api.responses.parse.return_value = SimpleNamespace(output_parsed=None)
+    monkeypatch.setattr(
+        ai.gemini,
+        "structured",
+        lambda *args, **kwargs: (_ for _ in ()).throw(HTTPException(422, "No result")),
+    )
     with pytest.raises(HTTPException) as refused:
         ai.extract("irrelevant", "Africa/Nairobi")
     assert refused.value.status_code == 422
-    api.responses.parse.side_effect = APITimeoutError(
-        request=httpx.Request("POST", "https://api.openai.com/v1/responses")
-    )
+
+    calls = 0
+
+    def timeout(*args, **kwargs):
+        nonlocal calls
+        calls += 1
+        raise HTTPException(504, "Timed out")
+
+    monkeypatch.setattr(ai.gemini, "structured", timeout)
     with pytest.raises(HTTPException) as timeout:
         ai.extract("text", "Africa/Nairobi")
     assert timeout.value.status_code == 504
-    # Refusal used one call; timeout uses exactly two bounded attempts.
-    assert api.responses.parse.call_count == 3
+    assert calls == 2
 
 
 def test_reversals_and_unsupported_messages_not_guessed():

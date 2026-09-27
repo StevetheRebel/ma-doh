@@ -9,6 +9,10 @@ from pydantic import ValidationError
 from app.config import settings
 
 
+def enabled():
+    return bool(settings().gemini_api_key.get_secret_value())
+
+
 def generate(instructions, parts, schema=None):
     config = settings()
     key = config.gemini_api_key.get_secret_value()

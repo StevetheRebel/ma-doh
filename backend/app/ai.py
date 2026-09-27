@@ -1,4 +1,3 @@
-import base64
 import logging
 import re
 from datetime import date, datetime
@@ -7,9 +6,8 @@ from time import perf_counter
 from zoneinfo import ZoneInfo
 
 from fastapi import HTTPException
-from openai import APIError, APITimeoutError, OpenAI, OpenAIError, RateLimitError
-from pydantic import ValidationError
 
+from app import gemini, huggingface
 from app.config import settings
 from app.schemas import CATEGORIES, AskPlan, Extraction
 
@@ -17,52 +15,7 @@ logger = logging.getLogger("ma_doh.ai")
 
 
 def ai_enabled():
-    return bool(settings().openai_api_key.get_secret_value())
-
-
-def client():
-    if not ai_enabled():
-        raise HTTPException(
-            503,
-            "AI is not configured. Set OPENAI_API_KEY on the server. Manual entries and recognized M-Pesa messages still work.",
-        )
-    return OpenAI(
-        api_key=settings().openai_api_key.get_secret_value(),
-        timeout=settings().ai_timeout_seconds,
-        max_retries=0,
-    )
-
-
-def _structured_attempt(schema, instructions, content):
-    try:
-        with client() as api:
-            response = api.responses.parse(
-                model=settings().openai_model,
-                input=[
-                    {"role": "system", "content": instructions},
-                    {"role": "user", "content": content},
-                ],
-                text_format=schema,
-                store=False,
-                max_output_tokens=4000,
-            )
-        if response.output_parsed is None:
-            raise HTTPException(
-                422, "The input could not be interpreted. Try clearer input or enter it manually."
-            )
-        return response.output_parsed
-    except APITimeoutError:
-        raise HTTPException(
-            504, "AI processing timed out. No transactions were saved; retry the capture."
-        ) from None
-    except RateLimitError:
-        raise HTTPException(
-            503, "AI is temporarily unavailable. Retry later or use manual entry."
-        ) from None
-    except (OpenAIError, ValidationError, ValueError):
-        raise HTTPException(
-            502, "AI returned an unusable response. No transactions were saved."
-        ) from None
+    return gemini.enabled()
 
 
 def structured(schema, instructions, content):
@@ -71,7 +24,7 @@ def structured(schema, instructions, content):
     try:
         for attempt in range(2):
             try:
-                return _structured_attempt(schema, instructions, content)
+                return gemini.structured(schema, instructions, content)
             except HTTPException as exc:
                 if exc.status_code not in (502, 504) or attempt == 1:
                     status = str(exc.status_code)
@@ -82,7 +35,7 @@ def structured(schema, instructions, content):
         logger.info(
             "operation=%s model=%s latency_ms=%d status=%s",
             schema.__name__,
-            settings().openai_model,
+            settings().gemini_model,
             int((perf_counter() - started) * 1000),
             status,
         )
@@ -111,15 +64,11 @@ Include visible receipt line items in items as supporting metadata, never as add
 Include payment_method only when stated. Confidence is an optional 0–1 estimate, not proof;
 use null when you cannot assess it. Low-quality images should produce warnings and missing fields.
 """
-    content = [{"type": "input_text", "text": text or "Extract the transactions in this receipt."}]
     if image:
-        content.append(
-            {
-                "type": "input_image",
-                "image_url": f"data:{mime};base64,{base64.b64encode(image).decode()}",
-            }
-        )
-    result = structured(Extraction, instructions, content)
+        result = huggingface.receipt(Extraction, instructions, image, mime, text)
+    else:
+        content = [{"type": "input_text", "text": text or "Extract the transactions."}]
+        result = structured(Extraction, instructions, content)
     if not result.transactions:
         raise HTTPException(422, "No transaction found. Try clearer input or manual entry.")
     if len(result.transactions) > 20:
@@ -177,38 +126,13 @@ def normalize_extracted(data):
     return {**data, "currency": "KES", "warnings": warnings}
 
 
-def _transcribe_attempt(data: bytes, filename: str, mime: str):
-    try:
-        with client() as api:
-            result = api.audio.transcriptions.create(
-                model=settings().openai_transcription_model,
-                file=(filename, data, mime),
-                prompt="Personal spending notes. Currency: Kenyan shillings. M-Pesa, matatu, boda boda.",
-            )
-        if not result.text.strip():
-            raise HTTPException(422, "No speech was detected in the recording.")
-        if len(result.text) > 12000:
-            raise HTTPException(422, "Recording is too long. Use a shorter note.")
-        return result.text
-    except APITimeoutError:
-        raise HTTPException(
-            504, "Transcription timed out. Retry with a shorter recording."
-        ) from None
-    except RateLimitError:
-        raise HTTPException(503, "Transcription is temporarily unavailable.") from None
-    except APIError:
-        raise HTTPException(
-            502, "Audio could not be transcribed. Check the file and try again."
-        ) from None
-
-
 def transcribe(data: bytes, filename: str, mime: str):
     started = perf_counter()
     status = "ok"
     try:
         for attempt in range(2):
             try:
-                return _transcribe_attempt(data, filename, mime)
+                return huggingface.transcribe(data, mime)
             except HTTPException as exc:
                 if exc.status_code not in (502, 504) or attempt == 1:
                     status = str(exc.status_code)
@@ -216,7 +140,7 @@ def transcribe(data: bytes, filename: str, mime: str):
     finally:
         logger.info(
             "operation=transcription model=%s latency_ms=%d status=%s",
-            settings().openai_transcription_model,
+            settings().hf_transcription_model,
             int((perf_counter() - started) * 1000),
             status,
         )

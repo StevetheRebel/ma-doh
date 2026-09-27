@@ -11,11 +11,12 @@ class Settings(BaseSettings):
     supabase_publishable_key: str = ""
     cors_origins: list[str] = []
     retain_source_text: bool = False
-    openai_api_key: SecretStr = SecretStr("")
-    openai_model: str = "gpt-4.1-mini"
-    openai_transcription_model: str = "gpt-4o-mini-transcribe"
     gemini_api_key: SecretStr = SecretStr("")
     gemini_model: str = "gemini-2.5-flash"
+    hf_token: SecretStr = SecretStr("")
+    hf_inference_base_url: str = "https://router.huggingface.co"
+    hf_vision_model: str = "Qwen/Qwen2.5-VL-7B-Instruct"
+    hf_transcription_model: str = "openai/whisper-large-v3-turbo"
     ai_timeout_seconds: float = Field(default=45, gt=0, le=120)
     max_upload_mb: int = Field(default=10, ge=1, le=20)
 

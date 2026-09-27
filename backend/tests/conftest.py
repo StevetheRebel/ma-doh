@@ -34,7 +34,8 @@ def db_engine():
 
 @pytest.fixture
 def client(db_engine, monkeypatch):
-    monkeypatch.setenv("OPENAI_API_KEY", "")
+    monkeypatch.setenv("GEMINI_API_KEY", "")
+    monkeypatch.setenv("HF_TOKEN", "")
     monkeypatch.setenv("SUPABASE_URL", "https://example.supabase.co")
     monkeypatch.setenv("SUPABASE_PUBLISHABLE_KEY", "test-publishable-key")
     settings.cache_clear()

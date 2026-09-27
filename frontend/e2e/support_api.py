@@ -3,7 +3,8 @@ import os
 import tempfile
 import atexit
 from pathlib import Path
-os.environ["OPENAI_API_KEY"] = ""
+os.environ["GEMINI_API_KEY"] = ""
+os.environ["HF_TOKEN"] = ""
 os.environ["CORS_ORIGINS"] = '["http://127.0.0.1:3100"]'
 from fastapi import HTTPException
 from sqlalchemy import create_engine

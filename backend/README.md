@@ -1,6 +1,6 @@
 # Ma-Doh backend
 
-Personal financial intelligence for KES, built with **FastAPI, Pydantic, SQLAlchemy, PostgreSQL, Supabase Auth, and OpenAI**. This is a backend-only implementation. Swagger at `/docs` is an API explorer, not a product frontend.
+Personal financial intelligence for KES, built with **FastAPI, Pydantic, SQLAlchemy, PostgreSQL, Supabase Auth, Gemini, and Hugging Face Inference Providers**. Swagger at `/docs` is an API explorer, not a product frontend.
 
 Receipt photos, voice recordings, pasted messages, and manual input become reviewable drafts. Only confirmed transactions affect income, spending, category totals, and estimated account balances. Ask My Money selects an approved query; SQL computes its answer and returns supporting records.
 
@@ -20,7 +20,8 @@ Edit `.env`:
 DATABASE_URL=postgresql+psycopg://YOUR_DATABASE_USER:YOUR_PASSWORD@YOUR_HOST:5432/postgres?sslmode=require
 SUPABASE_URL=https://YOUR_PROJECT.supabase.co
 SUPABASE_PUBLISHABLE_KEY=YOUR_PUBLISHABLE_KEY
-OPENAI_API_KEY=YOUR_OPENAI_API_KEY
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY
+HF_TOKEN=YOUR_HUGGING_FACE_TOKEN
 CORS_ORIGINS=["http://localhost:5173"]
 ```
 
@@ -35,7 +36,7 @@ uv run uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
 - Contract: http://localhost:8000/openapi.json (also exported in `openapi.json`)
 - Health: http://localhost:8000/health
 
-`OPENAI_API_KEY` is optional for manual transactions, recognized M-Pesa messages, analytics, and the four example questions below. It is required for receipt images, voice, bank/free-form text extraction, and more flexible question phrasing. Missing keys return explicit errors, never fabricated transactions.
+AI keys are optional for manual transactions, recognized M-Pesa messages, analytics, and the four example questions below. `GEMINI_API_KEY` enables free-form text extraction and flexible question phrasing. `HF_TOKEN` enables Qwen receipt extraction and Whisper voice transcription. Missing keys return explicit errors, never fabricated transactions.
 
 ## Supabase: database and hosted authentication
 
@@ -151,23 +152,24 @@ These work without an AI key:
 - `Show my cash flow`
 - `Compare spending`
 
-OpenAI can translate other phrasing/custom periods into the same approved query schema. It never receives database credentials or executes SQL. Unsupported requests return 422 rather than a fabricated answer.
+Gemini can translate other phrasing/custom periods into the same approved query schema. It never receives database credentials or executes SQL. Unsupported requests return 422 rather than a fabricated answer.
 
 Answers contain the inclusive date range, decimal totals, `transaction_count`, and up to 50 supporting records with `/transactions/{id}` links. `evidence.total`, `evidence.truncated`, and `evidence.transactions_url` support pagination. Comparisons also return `previous_evidence`. Month-to-date compares against the same elapsed days in the previous month, capped to its length. A zero prior total produces a null percentage rather than division by zero.
 
-## OpenAI integration and privacy
+## AI integration and privacy
 
-- `OPENAI_MODEL=gpt-4.1-mini`: image/text extraction and constrained question planning.
-- `OPENAI_TRANSCRIPTION_MODEL=gpt-4o-mini-transcribe`: speech transcription.
-- Model names are configurable. This build uses OpenAI, per the requested choice; it does **not** use Brev, Qwen, Whisper hosting, or Gemini. Do not claim otherwise in the hackathon disclosure.
-- `responses.parse(..., text_format=...)` constrains extraction/planning to Pydantic schemas. The backend validates the result again. Provider failures return explicit errors; manual capture remains available.
+- `GEMINI_MODEL=gemini-2.5-flash`: text extraction and constrained question planning.
+- `HF_VISION_MODEL=Qwen/Qwen2.5-VL-7B-Instruct`: receipt image understanding.
+- `HF_TRANSCRIPTION_MODEL=openai/whisper-large-v3-turbo`: speech transcription through Hugging Face.
+- Model names and the Hugging Face router base URL are configurable server-side.
+- Gemini structured JSON prompts and backend Pydantic validation constrain text extraction and question planning. Qwen receipt output is also validated against the same transaction schema. Provider failures return explicit errors; manual capture remains available.
 - AI timeouts/unusable output get one bounded retry. Refusals, missing configuration, and rate-limit errors are surfaced directly. The timeout is per attempt; a voice capture can perform transcription plus extraction, so allow up to four attempts' worth of time at your ingress. Logs contain operation/model/latency/status, not input content or tokens.
 - Incoming original images/audio are never persisted. Pasted text/transcripts are returned for immediate review but not saved unless `RETAIN_SOURCE_TEXT=true`. Structured records, receipt items, warnings, source type, and input fingerprints are persisted until deleted.
-- AI-enabled inputs are sent to OpenAI. Responses use `store=False`; that flag is not a claim of zero provider-side retention. Use synthetic input for hackathon testing.
+- AI-enabled text is sent to Gemini; receipt images and audio are sent to Hugging Face Inference Providers. Use synthetic or explicitly approved input for hackathon testing.
 - Source deletion removes the capture and drafts, detaching already confirmed records. Delete transactions separately or use `/me/data` to erase all financial records. Supabase account deletion is managed through Supabase.
 - Uploads are limited to 10 MB by default. Processing is synchronous with a configured provider timeout. For a public deployment, configure the ingress upload limit/rate limit and AI project budget; durable queues are intentionally outside this MVP.
 
-Implementation references: [structured outputs](https://developers.openai.com/api/docs/guides/structured-outputs), [image inputs](https://developers.openai.com/api/docs/guides/images-vision), [transcription](https://developers.openai.com/api/docs/guides/speech-to-text).
+Implementation references: [Gemini structured outputs](https://ai.google.dev/gemini-api/docs/generate-content/structured-output), [Hugging Face image-text-to-text](https://huggingface.co/docs/inference-providers/tasks/image-text-to-text), and [Hugging Face automatic speech recognition](https://huggingface.co/docs/inference-providers/tasks/automatic-speech-recognition).
 
 ## Local PostgreSQL and tests
 
@@ -192,7 +194,7 @@ Tests create and drop application tables in that test database. Never point them
 
 ## Deploy the backend
 
-The Dockerfile can run on a container host with network access to Supabase and OpenAI:
+The Dockerfile can run on a container host with network access to Supabase, Gemini, and Hugging Face:
 
 ```bash
 docker build -t ma-doh-api .
