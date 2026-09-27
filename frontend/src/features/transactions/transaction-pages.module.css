@@ -1,0 +1,622 @@
+.page {
+  width: min(100%, 1040px);
+}
+
+.narrowPage {
+  width: min(100%, 720px);
+  margin-inline: auto;
+}
+
+.primaryAction,
+.secondaryAction,
+.dangerAction,
+.iconAction {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 6px;
+  padding: 0 18px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.primaryAction {
+  border: 1px solid var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+
+.primaryAction:hover {
+  background: var(--color-primary-hover);
+}
+
+.secondaryAction {
+  border: 1px solid var(--color-primary);
+  background: var(--color-surface);
+  color: var(--color-primary);
+}
+
+.dangerAction {
+  border: 1px solid var(--color-danger);
+  background: var(--color-surface);
+  color: var(--color-danger);
+}
+
+.iconAction {
+  width: 44px;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.methodGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.methodCard {
+  display: grid;
+  min-height: 170px;
+  align-content: space-between;
+  gap: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  padding: 22px;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.methodCard[href]:hover {
+  border-color: var(--color-primary);
+}
+
+.methodCardDisabled {
+  background: var(--color-surface-muted);
+}
+
+.methodCardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.methodIcon {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 7px;
+  background: var(--color-primary-soft);
+}
+
+.methodCard:nth-child(2) .methodIcon {
+  background: var(--color-information-soft);
+  color: var(--color-information);
+}
+
+.methodCard:nth-child(3) .methodIcon {
+  background: var(--color-warning-soft);
+}
+
+.methodCard:nth-child(4) .methodIcon {
+  background: var(--color-surface-muted);
+}
+
+.methodCard h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.methodCard p {
+  margin: 6px 0 0;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.statusBadge,
+.sourceBadge,
+.typeBadge {
+  display: inline-flex;
+  min-height: 26px;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0 9px;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.statusBadge {
+  background: var(--color-warning-soft);
+  color: var(--color-text);
+}
+
+.sourceBadge {
+  background: var(--color-information-soft);
+  color: var(--color-information);
+  text-transform: capitalize;
+}
+
+.typeBadge {
+  background: var(--color-primary-soft);
+  color: var(--color-text);
+  text-transform: capitalize;
+}
+
+.formCard,
+.reviewCard,
+.detailCard,
+.emptyState {
+  margin-top: 28px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+}
+
+.formCard,
+.reviewCard,
+.detailCard {
+  padding: clamp(20px, 4vw, 32px);
+}
+
+.segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  border-radius: 7px;
+  background: var(--color-surface-muted);
+  padding: 4px;
+}
+
+.segmented button {
+  min-height: 42px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-weight: 650;
+}
+
+.segmented .selected {
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: 0 1px 4px rgba(23, 33, 28, 0.1);
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.field,
+.fullField {
+  display: grid;
+  gap: 7px;
+}
+
+.fullField {
+  grid-column: 1 / -1;
+}
+
+.field label,
+.fullField label,
+.fieldLabel {
+  color: var(--color-text-strong-secondary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.field input,
+.field select,
+.fullField input,
+.fullField textarea,
+.fullField select,
+.reviewField input,
+.reviewField select {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-surface);
+  padding: 10px 12px;
+  color: var(--color-text);
+  font: inherit;
+}
+
+.visuallyHidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+}
+
+.uploadButton {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  border: 1px dashed var(--color-primary);
+  border-radius: 6px;
+  padding: 0 14px;
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
+.attachmentRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+.attachmentRow span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.attachmentRow button,
+.imagePreview button { border: 0; background: transparent; color: var(--color-danger); cursor: pointer; }
+
+.capturePanel {
+  margin-top: 22px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  padding: clamp(20px, 4vw, 30px);
+}
+
+.captureHeading span { color: var(--color-primary); font-size: 11px; font-weight: 700; text-transform: uppercase; }
+.captureHeading h2 { margin: 5px 0; font-size: 22px; }
+.captureHeading p { margin: 0; color: var(--color-text-secondary); }
+.receiptCapture,
+.voiceCapture { display: grid; gap: 18px; margin-top: 22px; }
+.capturePlaceholder { display: grid; min-height: 190px; place-items: center; align-content: center; gap: 8px; border: 1px dashed var(--color-border); border-radius: 7px; color: var(--color-text-secondary); }
+.capturePlaceholder strong { color: var(--color-text); }
+.capturePlaceholder span { font-size: 12px; }
+.captureActions { display: flex; flex-wrap: wrap; gap: 10px; }
+.captureActions label { cursor: pointer; }
+.imagePreview { position: relative; display: grid; justify-items: center; gap: 8px; }
+.imagePreview img { width: 100%; max-height: 320px; object-fit: contain; border: 1px solid var(--color-border); border-radius: 7px; background: var(--color-surface-muted); }
+.imagePreview button { position: absolute; top: 10px; right: 10px; display: grid; width: 36px; height: 36px; place-items: center; border-radius: 50%; background: var(--color-surface); box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+.imagePreview span { color: var(--color-text-secondary); font-size: 12px; }
+.micStatus { display: grid; min-height: 190px; place-items: center; align-content: center; gap: 8px; border: 1px solid var(--color-border); border-radius: 7px; background: var(--color-surface-muted); color: var(--color-primary); }
+.micStatus span { color: var(--color-text-secondary); font-size: 12px; }
+.micStatus.isRecording { border-color: var(--color-danger); color: var(--color-danger); }
+.audioPlayer { width: 100%; }
+.voiceCapture > button { justify-self: center; }
+.messageCapture { display: grid; gap: 8px; margin-top: 22px; }
+.messageCapture label { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 650; }
+.messageCapture textarea { width: 100%; min-height: 190px; resize: vertical; border: 1px solid var(--color-border); border-radius: 6px; padding: 14px; font: inherit; }
+.messageCapture textarea:focus { border-color: var(--color-primary); outline: 3px solid rgba(22, 120, 24, 0.2); }
+.messageCapture > span { justify-self: end; color: var(--color-text-secondary); font-size: 11px; }
+
+.fullField textarea {
+  min-height: 92px;
+  resize: vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.fullField input:focus,
+.fullField textarea:focus,
+.fullField select:focus,
+.reviewField input:focus,
+.reviewField select:focus {
+  border-color: var(--color-primary);
+  outline: 3px solid rgba(22, 120, 24, 0.2);
+  outline-offset: 1px;
+}
+
+.amountInput {
+  position: relative;
+}
+
+.amountInput span {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  color: var(--color-text-secondary);
+  font-size: 13px;
+  transform: translateY(-50%);
+}
+
+.amountInput input {
+  padding-left: 50px;
+}
+
+.checkboxRow {
+  display: flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  padding: 12px 0;
+}
+
+.checkboxRow div {
+  display: grid;
+  gap: 3px;
+}
+
+.checkboxRow span {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.checkboxRow input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--color-primary);
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.errorBanner {
+  margin: 20px 0 0;
+  border: 1px solid var(--color-danger);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--color-danger-soft) 22%, white);
+  padding: 12px 14px;
+  color: var(--color-danger);
+  font-size: 14px;
+}
+
+.reviewNotice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 24px;
+  border: 1px solid var(--color-warning);
+  border-radius: 6px;
+  background: var(--color-warning-soft);
+  padding: 14px;
+}
+
+.reviewNotice p {
+  margin: 3px 0 0;
+  color: var(--color-text-strong-secondary);
+  font-size: 13px;
+}
+
+.reviewGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.reviewField {
+  display: grid;
+  gap: 7px;
+}
+
+.reviewField span {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.searchField {
+  position: relative;
+  flex: 1;
+}
+
+.searchField svg {
+  position: absolute;
+  top: 50%;
+  left: 13px;
+  color: var(--color-text-secondary);
+  transform: translateY(-50%);
+}
+
+.searchField input {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-surface);
+  padding: 10px 12px 10px 42px;
+  font: inherit;
+}
+
+.transactionList {
+  overflow: hidden;
+  margin-top: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+}
+
+.transactionRow {
+  display: grid;
+  min-height: 78px;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 16px;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.transactionRow + .transactionRow {
+  border-top: 1px solid var(--color-border);
+}
+
+.transactionRow:hover {
+  background: var(--color-surface-muted);
+}
+
+.transactionIcon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 7px;
+  background: var(--color-information-soft);
+  color: var(--color-information);
+}
+
+.transactionMeta {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+.transactionMeta strong,
+.transactionMeta span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.transactionMeta span,
+.transactionAmount span {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+}
+
+.transactionAmount {
+  display: grid;
+  justify-items: end;
+  gap: 4px;
+}
+
+.positive {
+  color: var(--color-success);
+}
+
+.emptyState {
+  display: grid;
+  min-height: 280px;
+  place-items: center;
+  padding: 32px;
+  text-align: center;
+}
+
+.emptyState div {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+}
+
+.emptyState h2,
+.emptyState p {
+  margin: 0;
+}
+
+.emptyState p {
+  max-width: 440px;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+}
+
+.detailHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 22px;
+}
+
+.detailHeader h2 {
+  margin: 10px 0 4px;
+  font-size: 28px;
+}
+
+.detailHeader p {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.detailList {
+  display: grid;
+  margin: 0;
+}
+
+.detailRow {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.7fr) minmax(0, 1.3fr);
+  gap: 16px;
+  border-bottom: 1px solid var(--color-border);
+  padding: 16px 0;
+}
+
+.detailRow dt {
+  color: var(--color-text-secondary);
+}
+
+.detailRow dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+@media (max-width: 700px) {
+  .methodGrid,
+  .formGrid,
+  .reviewGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .fullField {
+    grid-column: auto;
+  }
+
+  .formCard,
+  .reviewCard,
+  .detailCard {
+    margin-top: 22px;
+    padding: 18px;
+  }
+
+  .formActions {
+    flex-direction: column-reverse;
+  }
+
+  .formActions a,
+  .formActions button {
+    width: 100%;
+  }
+
+  .transactionRow {
+    grid-template-columns: 42px minmax(0, 1fr);
+  }
+
+  .transactionAmount {
+    grid-column: 2;
+    justify-items: start;
+  }
+
+  .detailHeader,
+  .toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .detailRow {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+}
