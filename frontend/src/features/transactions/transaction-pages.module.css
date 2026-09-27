@@ -32,6 +32,94 @@
   background: var(--color-primary-hover);
 }
 
+.accountModal {
+  position: fixed;
+  inset: 0;
+  width: min(calc(100% - 32px), 520px);
+  max-width: none;
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  padding: 0;
+  color: var(--color-text);
+  box-shadow: var(--shadow-dialog);
+}
+
+.accountModal::backdrop {
+  background: rgba(10, 24, 16, 0.58);
+  backdrop-filter: blur(5px);
+}
+
+.accountModalCard {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 100% 0, rgba(192, 241, 129, 0.42), transparent 38%),
+    var(--color-surface);
+  padding: clamp(28px, 6vw, 42px);
+  text-align: center;
+}
+
+.accountModalIcon {
+  display: grid;
+  width: 62px;
+  height: 62px;
+  margin: 0 auto 20px;
+  place-items: center;
+  border-radius: 18px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  box-shadow: 0 8px 22px rgba(22, 120, 24, 0.15);
+}
+
+.accountModalEyebrow {
+  margin: 0 0 8px;
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.accountModalCard h2 {
+  margin: 0;
+  font-size: clamp(25px, 5vw, 32px);
+  line-height: 1.15;
+}
+
+.accountModalCard > p:not(.accountModalEyebrow) {
+  max-width: 420px;
+  margin: 16px auto 0;
+  color: var(--color-text-secondary);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.accountModalActions {
+  display: grid;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.modalDismiss {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.modalDismiss:hover {
+  color: var(--color-text);
+}
+
 .secondaryAction {
   border: 1px solid var(--color-primary);
   background: var(--color-surface);
@@ -193,14 +281,74 @@
 .formGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
-  margin-top: 24px;
+  gap: 24px 18px;
+  margin-top: 28px;
 }
 
 .field,
 .fullField {
   display: grid;
-  gap: 7px;
+  align-content: start;
+  gap: 8px;
+}
+
+.fieldHint {
+  min-height: 17px;
+  color: var(--color-text-secondary);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.formHeadingBlock {
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 24px;
+}
+
+.formHeadingBlock > span {
+  color: var(--color-primary);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.formHeadingBlock h2 {
+  margin: 6px 0 8px;
+  font-size: 24px;
+}
+
+.formHeadingBlock p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+}
+
+.draftPicker {
+  display: grid;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.draftPicker > span {
+  color: var(--color-text-strong-secondary);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.draftPicker select {
+  min-height: 46px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  padding: 0 12px;
+  color: var(--color-text);
+  font: inherit;
+}
+
+.draftPicker small {
+  color: var(--color-text-secondary);
+  font-size: 12px;
 }
 
 .fullField {
@@ -271,20 +419,106 @@
 .capturePanel {
   margin-top: 22px;
   border: 1px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: 14px;
   background: var(--color-surface);
-  padding: clamp(20px, 4vw, 30px);
+  padding: clamp(24px, 4vw, 36px);
+  box-shadow: 0 10px 30px rgba(23, 33, 28, 0.06);
 }
 
-.captureHeading span { color: var(--color-primary); font-size: 11px; font-weight: 700; text-transform: uppercase; }
-.captureHeading h2 { margin: 5px 0; font-size: 22px; }
-.captureHeading p { margin: 0; color: var(--color-text-secondary); }
+.captureHeading {
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 24px;
+}
+
+.captureHeading span {
+  color: var(--color-primary);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.captureHeading h2 {
+  margin: 6px 0 8px;
+  font-size: 25px;
+}
+
+.captureHeading p {
+  max-width: 700px;
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+}
+
+.captureAccountField {
+  display: grid;
+  gap: 8px;
+  max-width: 480px;
+  margin-top: 26px;
+}
+
+.captureAccountField label,
+.messageCapture label {
+  color: var(--color-text-strong-secondary);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.captureAccountField select {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  padding: 0 12px;
+  color: var(--color-text);
+  font: inherit;
+}
+
+.captureAccountField small,
+.selectedFile {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
 .receiptCapture,
-.voiceCapture { display: grid; gap: 18px; margin-top: 22px; }
-.capturePlaceholder { display: grid; min-height: 190px; place-items: center; align-content: center; gap: 8px; border: 1px dashed var(--color-border); border-radius: 7px; color: var(--color-text-secondary); }
-.capturePlaceholder strong { color: var(--color-text); }
-.capturePlaceholder span { font-size: 12px; }
-.captureActions { display: flex; flex-wrap: wrap; gap: 10px; }
+.voiceCapture {
+  display: grid;
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.capturePlaceholder {
+  display: grid;
+  min-height: 220px;
+  place-items: center;
+  align-content: center;
+  gap: 9px;
+  border: 1px dashed var(--color-border);
+  border-radius: 10px;
+  background: var(--color-surface-muted);
+  color: var(--color-text-secondary);
+}
+
+.capturePlaceholder svg {
+  margin-bottom: 4px;
+  color: var(--color-primary);
+}
+
+.capturePlaceholder strong {
+  color: var(--color-text);
+}
+
+.capturePlaceholder span {
+  font-size: 12px;
+}
+
+.captureActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 .captureActions label { cursor: pointer; }
 .imagePreview { position: relative; display: grid; justify-items: center; gap: 8px; }
 .imagePreview img { width: 100%; max-height: 320px; object-fit: contain; border: 1px solid var(--color-border); border-radius: 7px; background: var(--color-surface-muted); }
@@ -295,11 +529,138 @@
 .micStatus.isRecording { border-color: var(--color-danger); color: var(--color-danger); }
 .audioPlayer { width: 100%; }
 .voiceCapture > button { justify-self: center; }
-.messageCapture { display: grid; gap: 8px; margin-top: 22px; }
-.messageCapture label { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 650; }
-.messageCapture textarea { width: 100%; min-height: 190px; resize: vertical; border: 1px solid var(--color-border); border-radius: 6px; padding: 14px; font: inherit; }
+.messageCapture { display: grid; gap: 8px; margin-top: 28px; }
+.messageCapture label { display: flex; align-items: center; gap: 7px; }
+.messageCapture textarea { width: 100%; min-height: 210px; resize: vertical; border: 1px solid var(--color-border); border-radius: 8px; padding: 14px; font: inherit; }
 .messageCapture textarea:focus { border-color: var(--color-primary); outline: 3px solid rgba(22, 120, 24, 0.2); }
 .messageCapture > span { justify-self: end; color: var(--color-text-secondary); font-size: 11px; }
+
+.cameraModal {
+  position: fixed;
+  inset: 0;
+  width: min(calc(100% - 28px), 760px);
+  max-width: none;
+  max-height: calc(100dvh - 28px);
+  margin: auto;
+  overflow: auto;
+  border: 0;
+  border-radius: 14px;
+  background: var(--color-surface);
+  padding: clamp(20px, 4vw, 30px);
+  color: var(--color-text);
+  box-shadow: var(--shadow-dialog);
+}
+
+.cameraModal::backdrop {
+  background: rgba(8, 18, 12, 0.72);
+  backdrop-filter: blur(6px);
+}
+
+.cameraModalHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.cameraModalHeader span {
+  color: var(--color-primary);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cameraModalHeader h2 {
+  margin: 5px 0 0;
+  font-size: clamp(23px, 4vw, 30px);
+}
+
+.cameraModalHeader > button {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background: var(--color-surface);
+  cursor: pointer;
+}
+
+.cameraModalDescription {
+  margin: 10px 0 20px;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.cameraViewport {
+  display: grid;
+  min-height: min(56vh, 460px);
+  overflow: hidden;
+  place-items: center;
+  border-radius: 12px;
+  background: #0b120e;
+}
+
+.cameraViewport video,
+.cameraViewport img {
+  width: 100%;
+  height: min(56vh, 460px);
+  object-fit: contain;
+}
+
+.cameraState {
+  display: grid;
+  place-items: center;
+  gap: 10px;
+  color: #dbe7df;
+}
+
+.cameraModalActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.cameraShutter {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--color-primary);
+  border-radius: 999px;
+  background: var(--color-primary);
+  padding: 0 22px 0 8px;
+  color: var(--color-text-inverse);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cameraShutter > span {
+  width: 32px;
+  height: 32px;
+  border: 3px solid white;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 3px var(--color-primary);
+}
+
+.modalTextAction {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  gap: 7px;
+  border: 0;
+  background: transparent;
+  padding: 0 12px;
+  color: var(--color-text-secondary);
+  font-weight: 650;
+  cursor: pointer;
+}
 
 .fullField textarea {
   min-height: 92px;
@@ -377,6 +738,27 @@
   padding: 12px 14px;
   color: var(--color-danger);
   font-size: 14px;
+}
+
+.successBanner {
+  margin: 20px 0 0;
+  border: 1px solid #a9d8b0;
+  border-radius: 6px;
+  background: #effaf1;
+  padding: 12px 14px;
+  color: #205d2c;
+  font-size: 14px;
+}
+
+.warningBanner {
+  margin: 18px 0 0;
+  border: 1px solid #e8b532;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--color-warning-soft) 38%, white);
+  padding: 12px 14px;
+  color: var(--color-text-strong-secondary);
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 .reviewNotice {

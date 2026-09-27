@@ -97,6 +97,73 @@
   color: var(--color-information);
 }
 
+.questionForm {
+  display: grid;
+  gap: 20px;
+  margin-top: 26px;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-surface);
+  padding: clamp(20px, 4vw, 28px);
+  box-shadow: 0 8px 24px rgba(23, 33, 28, 0.06);
+}
+
+.questionField {
+  display: grid;
+  gap: 8px;
+}
+
+.questionField > span {
+  color: var(--color-text-strong-secondary);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.questionField textarea {
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 13px;
+  color: var(--color-text);
+  font: inherit;
+  line-height: 1.5;
+}
+
+.questionField textarea:focus {
+  border-color: var(--color-information);
+  outline: 3px solid color-mix(in srgb, var(--color-information) 15%, transparent);
+}
+
+.questionField small {
+  color: var(--color-text-secondary);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.askButton {
+  min-height: 46px;
+  justify-self: end;
+  border: 0;
+  border-radius: 8px;
+  background: var(--color-information);
+  padding: 0 22px;
+  color: var(--color-text-inverse);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.errorBanner {
+  margin: 18px 0 0;
+  border: 1px solid var(--color-danger);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--color-danger-soft) 20%, white);
+  padding: 12px 14px;
+  color: var(--color-danger);
+  font-size: 13px;
+}
+
 .askForm {
   position: sticky;
   bottom: 18px;
@@ -178,6 +245,9 @@
 }
 
 @media (max-width: 700px) {
+  .askButton {
+    width: 100%;
+  }
   .askForm {
     bottom: 150px;
   }
@@ -200,4 +270,19 @@
   .speechStatus {
     margin-bottom: 62px;
   }
+}
+
+.page article {
+  margin-top: 24px;
+  border-radius: 8px;
+  background: var(--color-information-soft);
+  padding: 24px;
+}
+
+.page article h2 {
+  font-size: 22px;
+}
+
+.page article li {
+  margin: 12px 0;
 }

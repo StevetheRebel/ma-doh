@@ -609,3 +609,12 @@ button:focus-visible {
     grid-column: auto;
   }
 }
+
+/* Shared live-data states, styled with the existing design tokens. */
+.integration-state { max-width: 680px; padding: 48px 24px; margin: 40px auto; }
+.integration-state h1 { font-size: 24px; margin-bottom: 16px; }
+.integration-state p { margin: 12px 0; }
+.integration-state button, .integration-state a { display: inline-block; margin: 12px 12px 0 0; padding: 10px 16px; border: 1px solid var(--color-border); border-radius: 8px; }
+.integration-note { padding: 14px 18px; margin-bottom: 18px; border: 1px solid var(--color-border); border-radius: 10px; background: var(--color-surface); font-size: 14px; }
+.integration-note a { text-decoration: underline; }
+button:disabled { opacity: .55; cursor: not-allowed; }

@@ -4,25 +4,47 @@ import { Bell, CalendarDays, Eye, EyeOff, UserRound } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-import { appPeriods, type AppPeriod, useAppPreferences } from "@/components/layout/app-preferences";
+import {
+  type AppPeriod,
+  useAppPreferences,
+} from "@/components/layout/app-preferences";
+
+import { useTransactions } from "@/features/transactions/transaction-provider";
+import { useAuth } from "@/features/auth/auth-provider";
 
 import styles from "./app-topbar.module.css";
 
 export function AppTopbar() {
-  const { period, setPeriod, hideAmounts, toggleAmounts } = useAppPreferences();
+  const { profile, drafts } = useTransactions();
+  const { session, signOut } = useAuth();
+  const { appPeriods, period, setPeriod, hideAmounts, toggleAmounts } =
+    useAppPreferences();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
   return (
     <header className={styles.topbar}>
       <div className={styles.identity}>
-        <Link className={styles.brand} href="/dashboard" aria-label="Ma-Doh dashboard">M</Link>
+        <Link
+          className={styles.brand}
+          href="/dashboard"
+          aria-label="Ma-Doh dashboard"
+        >
+          M
+        </Link>
         <div className={styles.greeting}>
           <strong>
-            <span className={styles.desktopGreeting}>Good morning, Steve</span>
-            <span className={styles.mobileGreeting}>Steve</span>
+            <span className={styles.desktopGreeting}>
+              Hello, {profile.name}
+            </span>
+            <span className={styles.mobileGreeting}>{profile.name}</span>
           </strong>
-          <span>Sunday, 27 September 2026</span>
+          <span>
+            {new Date().toLocaleDateString("en-KE", {
+              timeZone: profile.timezone,
+              dateStyle: "full",
+            })}
+          </span>
         </div>
       </div>
 
@@ -30,15 +52,22 @@ export function AppTopbar() {
         <label className={styles.periodControl}>
           <CalendarDays size={16} aria-hidden="true" />
           <span className="sr-only">Dashboard period</span>
-          <select value={period} onChange={(event) => setPeriod(event.target.value as AppPeriod)}>
+          <select
+            value={period}
+            onChange={(event) => setPeriod(event.target.value as AppPeriod)}
+          >
             {appPeriods.map((option) => (
-              <option key={option.value} value={option.value}>{option.label}</option>
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
             ))}
           </select>
         </label>
 
         <button
-          aria-label={hideAmounts ? "Show monetary values" : "Hide monetary values"}
+          aria-label={
+            hideAmounts ? "Show monetary values" : "Hide monetary values"
+          }
           aria-pressed={hideAmounts}
           className={styles.iconButton}
           onClick={toggleAmounts}
@@ -64,8 +93,8 @@ export function AppTopbar() {
           </button>
           {notificationsOpen ? (
             <div className={styles.menuPanel} role="status">
-              <strong>You are up to date</strong>
-              <span>No transaction needs review.</span>
+              <strong>Review queue</strong>
+              <span>{drafts.length} transactions need review.</span>
             </div>
           ) : null}
         </div>
@@ -85,9 +114,15 @@ export function AppTopbar() {
           </button>
           {profileOpen ? (
             <div className={`${styles.menuPanel} ${styles.profileMenu}`}>
-              <strong>Steve</strong>
-              <span>Demo account</span>
-              <Link href="/sign-in">Sign out</Link>
+              <strong>{profile.name}</strong>
+              <span>{session?.user.email}</span>
+              <button
+                onClick={() =>
+                  void signOut().catch((e) => window.alert(e.message))
+                }
+              >
+                Sign out
+              </button>
             </div>
           ) : null}
         </div>

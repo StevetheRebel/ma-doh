@@ -1,0 +1,56 @@
+# Use with a REST client, or follow the equivalent curl examples in README.md.
+# Set these values locally; do not commit actual tokens.
+@base = http://localhost:8000
+@token = REPLACE_WITH_SUPABASE_ACCESS_TOKEN
+@account = REPLACE_WITH_ACCOUNT_ID
+@draft = REPLACE_WITH_DRAFT_ID
+
+### Verify the session and initialize the local profile
+GET {{base}}/me
+Authorization: Bearer {{token}}
+
+### Create the account first. Opening balance is at the START of opening_date.
+POST {{base}}/accounts
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"name":"Demo M-Pesa","kind":"mpesa","opening_balance":"5000.00","opening_date":"2026-01-01"}
+
+### Synthetic payment message -> reviewable draft; repeated input is idempotent
+POST {{base}}/captures/message
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"account_id":"{{account}}","text":"UAI1234567 Confirmed. Ksh150.00 paid to NAIVAS on 10/1/26 at 3:00 PM. New M-PESA balance is Ksh4,850.00. Transaction cost, Ksh0.00."}
+
+### Manual capture uses the same draft flow, with no AI dependency
+POST {{base}}/captures/manual
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"account_id":"{{account}}","type":"expense","category":"transport","amount":"80.00","occurred_on":"2026-01-10","payment_method":"cash","description":"Synthetic bus fare"}
+
+### Review/correct
+PATCH {{base}}/drafts/{{draft}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"category":"food","amount":"150.00"}
+
+### Confirm once; retries return the same transaction
+POST {{base}}/drafts/{{draft}}/confirm
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{}
+
+### Deterministic analytics
+GET {{base}}/analytics/summary?start_date=2026-01-01&end_date=2026-01-31
+Authorization: Bearer {{token}}
+
+### Ask returns date range, decimal totals, transaction count, and evidence links
+POST {{base}}/ask
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{"question":"Where is most of my money going?"}

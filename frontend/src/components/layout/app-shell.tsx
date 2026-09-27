@@ -16,6 +16,9 @@ import type { ReactNode } from "react";
 import { AppTopbar } from "@/components/layout/app-topbar";
 import { QuickCaptureMenu } from "@/components/layout/quick-capture-menu";
 
+import { useTransactions } from "@/features/transactions/transaction-provider";
+import { useAuth } from "@/features/auth/auth-provider";
+
 import styles from "./app-shell.module.css";
 
 const navItems = [
@@ -23,7 +26,12 @@ const navItems = [
   { label: "Transactions", href: "/transactions", icon: ListChecks },
   { label: "Insights", href: "/insights", icon: ChartNoAxesCombined },
   { label: "Ask My Money", href: "/ask", icon: Sparkles },
-  { label: "Financial position", href: "/position", icon: Landmark, separated: true },
+  {
+    label: "Financial position",
+    href: "/position",
+    icon: Landmark,
+    separated: true,
+  },
   { label: "Recurring", href: "/recurring", icon: Repeat2 },
   { label: "Settings", href: "/settings", icon: Settings },
 ] as const;
@@ -36,6 +44,8 @@ function isActive(pathname: string, href: string) {
 }
 
 export function AppShell({ children }: { children: ReactNode }) {
+  const { profile } = useTransactions();
+  const { session } = useAuth();
   const pathname = usePathname();
 
   return (
@@ -58,15 +68,21 @@ export function AppShell({ children }: { children: ReactNode }) {
         </nav>
 
         <div className={styles.account}>
-          <span className={styles.avatar} aria-hidden="true">SK</span>
+          <span className={styles.avatar} aria-hidden="true">
+            {profile.name.slice(0, 2).toUpperCase()}
+          </span>
           <div>
-            <strong>Steve</strong>
-            <span>Demo account</span>
+            <strong>{profile.name}</strong>
+            <span>{session?.user.email}</span>
           </div>
         </div>
       </aside>
 
-      <main className={`${styles.main} ${pathname === "/dashboard" ? styles.dashboardMain : ""}`}>{children}</main>
+      <main
+        className={`${styles.main} ${pathname === "/dashboard" ? styles.dashboardMain : ""}`}
+      >
+        {children}
+      </main>
 
       <nav className={styles.mobileNav} aria-label="Mobile navigation">
         <Link
@@ -78,7 +94,11 @@ export function AppShell({ children }: { children: ReactNode }) {
           <span>Home</span>
         </Link>
         <Link
-          className={pathname.startsWith("/transactions") && !pathname.includes("/add") ? styles.mobileActive : ""}
+          className={
+            pathname.startsWith("/transactions") && !pathname.includes("/add")
+              ? styles.mobileActive
+              : ""
+          }
           href="/transactions"
           aria-current={pathname === "/transactions" ? "page" : undefined}
         >

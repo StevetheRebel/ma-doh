@@ -254,3 +254,37 @@
     font-size: 32px;
   }
 }
+
+.authError,
+.authNotice {
+  margin: 0;
+  border-radius: 6px;
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.authError {
+  border: 1px solid #efb4b4;
+  background: #fff1f1;
+  color: #8a2020;
+}
+
+.authNotice {
+  border: 1px solid #a9d8b0;
+  background: #effaf1;
+  color: #205d2c;
+}
+
+.formInner form > button {
+  min-height: 44px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+.formInner form > button[type="submit"] {
+  background: var(--color-primary);
+  color: white;
+}
